@@ -1,0 +1,66 @@
+import type { User } from '../types';
+
+export const mockUsers: User[] = [
+  {
+    id: 'u-1',
+    name: 'Vijay Rathinam',
+    email: 'vijay@ecodrop.in',
+    phone: '+91 98765 43210',
+    avatar: '',
+    role: 'user',
+    createdAt: '2025-01-15T10:30:00Z',
+    status: 'active',
+  },
+  {
+    id: 'u-2',
+    name: 'Priya Sharma',
+    email: 'priya.sharma@gmail.com',
+    phone: '+91 87654 32109',
+    avatar: '',
+    role: 'user',
+    createdAt: '2025-02-20T08:15:00Z',
+    status: 'active',
+  },
+  {
+    id: 'u-3',
+    name: 'Arjun Menon',
+    email: 'arjun.m@outlook.com',
+    phone: '+91 76543 21098',
+    avatar: '',
+    role: 'user',
+    createdAt: '2025-03-10T14:45:00Z',
+    status: 'active',
+  },
+  {
+    id: 'u-4',
+    name: 'Siva Kumar',
+    email: 'siva@ecodrop.in',
+    phone: '+91 65432 10987',
+    avatar: '',
+    role: 'admin',
+    createdAt: '2024-12-01T09:00:00Z',
+    status: 'active',
+  },
+  {
+    id: 'u-5',
+    name: 'Deepa Venkatesh',
+    email: 'deepa.v@yahoo.com',
+    phone: '+91 54321 09876',
+    avatar: '',
+    role: 'user',
+    createdAt: '2025-04-05T11:30:00Z',
+    status: 'active',
+  },
+  {
+    id: 'u-6',
+    name: 'Karthik Rajan',
+    email: 'karthik.r@gmail.com',
+    phone: '+91 43210 98765',
+    avatar: '',
+    role: 'user',
+    createdAt: '2025-05-12T16:20:00Z',
+    status: 'inactive',
+  },
+];
+
+export const currentMockUser = mockUsers[0];
