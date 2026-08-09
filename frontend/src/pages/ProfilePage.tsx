@@ -51,30 +51,33 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="pt-24 pb-32 min-h-screen bg-surface-50">
-      <div className="max-w-3xl mx-auto px-6 sm:px-8 lg:px-12 py-10 space-y-8">
+    <div className="py-24 sm:py-32 lg:py-40 min-h-screen bg-ambient-light">
+      <div className="max-w-5xl lg:max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 space-y-12">
         {/* Profile Header */}
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-3xl border border-surface-200/80 p-8 sm:p-10 text-center shadow-2xs space-y-4"
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+          className="glass-panel rounded-3xl border border-white/80 p-10 sm:p-14 text-center shadow-2xl space-y-6"
         >
-          <div className="w-24 h-24 rounded-full bg-eco-100 border-2 border-eco-200 flex items-center justify-center mx-auto shadow-xs">
-            <span className="text-3xl font-extrabold text-eco-900">{user?.name?.charAt(0) || 'U'}</span>
+          <div className="relative w-32 h-32 mx-auto">
+            <div className="w-32 h-32 rounded-full bg-[#143e2b] border-4 border-white flex items-center justify-center shadow-2xl">
+              <span className="text-5xl font-black font-display text-white">{user?.name?.charAt(0) || 'U'}</span>
+            </div>
+            <span className="absolute bottom-1 right-1 w-6 h-6 rounded-full bg-[#22c55e] border-2 border-white ring-4 ring-[#22c55e]/20" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-surface-900 tracking-tight">{user?.name || 'User'}</h1>
-            <p className="text-sm font-medium text-surface-500 mt-0.5">{user?.email}</p>
-            <p className="text-xs font-semibold text-eco-700 bg-eco-50 px-3 py-1 rounded-full inline-block mt-3 border border-eco-200/60">
+            <h1 className="text-4xl font-black font-display text-[#1b251f] tracking-tight">{user?.name || 'User'}</h1>
+            <p className="text-base font-medium text-[#556358] mt-1">{user?.email}</p>
+            <p className="text-xs font-extrabold text-[#143e2b] bg-[#ebf5ed] px-5 py-2 rounded-full inline-block mt-4 border border-[#22c55e]/30 shadow-2xs">
               Member since {user?.createdAt ? new Date(user.createdAt).toLocaleDateString('en-IN', { month: 'long', year: 'numeric' }) : 'N/A'}
             </p>
           </div>
         </motion.div>
 
         {/* Profile Details Card */}
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-          className="bg-white rounded-3xl border border-surface-200/80 p-8 sm:p-10 shadow-2xs space-y-6"
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+          className="glass-card rounded-3xl border border-white/80 p-10 sm:p-14 shadow-lg space-y-8"
         >
-          <div className="flex items-center justify-between pb-4 border-b border-surface-100">
-            <h2 className="font-bold text-lg text-surface-900">Personal Information</h2>
+          <div className="flex items-center justify-between pb-6 border-b border-[#eaeae4]">
+            <h2 className="font-extrabold font-display text-2xl text-[#1b251f]">Personal Information</h2>
             {!editing ? (
               <Button variant="outline" size="md" onClick={() => setEditing(true)}>Edit Profile</Button>
             ) : (
@@ -87,7 +90,7 @@ export default function ProfilePage() {
             )}
           </div>
 
-          <div className="space-y-5">
+          <div className="space-y-6">
             {editing ? (
               <>
                 <Input label="Full Name" value={name} onChange={e => setName(e.target.value)} icon={<User className="w-4 h-4" />} />
@@ -95,26 +98,26 @@ export default function ProfilePage() {
                 <Input label="Phone Number" value={phone} onChange={e => setPhone(e.target.value)} icon={<Phone className="w-4 h-4" />} />
               </>
             ) : (
-              <div className="space-y-4">
-                <div className="flex items-center gap-4 py-2 border-b border-surface-100/60">
-                  <User className="w-5 h-5 text-eco-700 shrink-0" />
+              <div className="space-y-5">
+                <div className="flex items-center gap-5 py-4 border-b border-[#eaeae4]">
+                  <User className="w-6 h-6 text-[#22c55e] shrink-0" />
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wider text-surface-400">Full Name</p>
-                    <p className="text-base font-semibold text-surface-900 mt-0.5">{user?.name}</p>
+                    <p className="text-xs font-extrabold uppercase tracking-widest text-[#788a7e]">Full Name</p>
+                    <p className="text-lg font-bold text-[#1b251f] mt-0.5">{user?.name}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-4 py-2 border-b border-surface-100/60">
-                  <Mail className="w-5 h-5 text-eco-700 shrink-0" />
+                <div className="flex items-center gap-5 py-4 border-b border-[#eaeae4]">
+                  <Mail className="w-6 h-6 text-[#22c55e] shrink-0" />
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wider text-surface-400">Email Address</p>
-                    <p className="text-base font-semibold text-surface-900 mt-0.5">{user?.email}</p>
+                    <p className="text-xs font-extrabold uppercase tracking-widest text-[#788a7e]">Email Address</p>
+                    <p className="text-lg font-bold text-[#1b251f] mt-0.5">{user?.email}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-4 py-2">
-                  <Phone className="w-5 h-5 text-eco-700 shrink-0" />
+                <div className="flex items-center gap-5 py-4">
+                  <Phone className="w-6 h-6 text-[#22c55e] shrink-0" />
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wider text-surface-400">Phone Number</p>
-                    <p className="text-base font-semibold text-surface-900 mt-0.5">{user?.phone}</p>
+                    <p className="text-xs font-extrabold uppercase tracking-widest text-[#788a7e]">Phone Number</p>
+                    <p className="text-lg font-bold text-[#1b251f] mt-0.5">{user?.phone}</p>
                   </div>
                 </div>
               </div>
@@ -123,19 +126,19 @@ export default function ProfilePage() {
         </motion.div>
 
         {/* Change Password Card */}
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
-          className="bg-white rounded-3xl border border-surface-200/80 p-8 sm:p-10 shadow-2xs space-y-6"
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
+          className="glass-card rounded-3xl border border-white/80 p-10 sm:p-14 shadow-lg space-y-8"
         >
           <div className="flex items-center justify-between">
-            <h2 className="font-bold text-lg text-surface-900 flex items-center gap-2.5">
-              <Lock className="w-5 h-5 text-eco-700" /> Security & Password
+            <h2 className="font-extrabold font-display text-2xl text-[#1b251f] flex items-center gap-3">
+              <Lock className="w-6 h-6 text-[#22c55e]" /> Security & Password
             </h2>
             <Button variant="outline" size="md" onClick={() => setShowPasswordForm(p => !p)}>
               {showPasswordForm ? 'Cancel' : 'Change Password'}
             </Button>
           </div>
           {showPasswordForm && (
-            <div className="space-y-5 pt-4 border-t border-surface-100">
+            <div className="space-y-6 pt-6 border-t border-[#eaeae4]">
               <Input label="Current Password" type="password" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} />
               <Input label="New Password" type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} />
               <Button isLoading={changingPassword} onClick={handleChangePassword} disabled={!currentPassword || !newPassword}>
@@ -146,23 +149,23 @@ export default function ProfilePage() {
         </motion.div>
 
         {/* Quick Links Card */}
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-          className="bg-white rounded-3xl border border-surface-200/80 overflow-hidden shadow-2xs"
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+          className="glass-card rounded-3xl border border-white/80 overflow-hidden shadow-lg"
         >
-          <Link to="/favorites" className="flex items-center gap-4 px-8 py-5 hover:bg-surface-50 transition-colors border-b border-surface-100">
-            <Heart className="w-5 h-5 text-rose-500 shrink-0" />
-            <span className="text-sm font-semibold text-surface-800">My Saved Favorites</span>
+          <Link to="/favorites" className="flex items-center gap-5 px-9 py-6 hover:bg-[#ebf5ed] transition-colors border-b border-[#eaeae4]">
+            <Heart className="w-6 h-6 text-rose-600 shrink-0" />
+            <span className="text-base font-bold text-[#1b251f]">My Saved Favorites</span>
           </Link>
-          <Link to="/history" className="flex items-center gap-4 px-8 py-5 hover:bg-surface-50 transition-colors">
-            <MessageSquare className="w-5 h-5 text-blue-500 shrink-0" />
-            <span className="text-sm font-semibold text-surface-800">Search History</span>
+          <Link to="/history" className="flex items-center gap-5 px-9 py-6 hover:bg-[#ebf5ed] transition-colors">
+            <MessageSquare className="w-6 h-6 text-blue-600 shrink-0" />
+            <span className="text-base font-bold text-[#1b251f]">Search History</span>
           </Link>
         </motion.div>
 
         {/* Logout */}
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}>
-          <Button variant="outline" className="w-full text-red-600 border-red-200 hover:bg-red-50 py-3.5"
-            leftIcon={<LogOut className="w-4 h-4" />} onClick={logout}
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}>
+          <Button variant="outline" className="w-full text-rose-600 border-rose-200 hover:bg-rose-50 py-5 shadow-sm text-base font-extrabold"
+            leftIcon={<LogOut className="w-5 h-5" />} onClick={logout}
           >
             Logout Account
           </Button>
@@ -171,3 +174,5 @@ export default function ProfilePage() {
     </div>
   );
 }
+
+

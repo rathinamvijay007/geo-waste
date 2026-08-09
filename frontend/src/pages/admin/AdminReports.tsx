@@ -44,13 +44,13 @@ export default function AdminReports() {
   return (
     <AdminLayout title="Center Reports" description="Investigate and resolve user reports about incorrect information">
       {/* Filter status */}
-      <div className="bg-white rounded-2xl border border-surface-200 p-4 mb-6 flex gap-2 overflow-x-auto">
+      <div className="glass-card rounded-3xl border border-white/80 p-5 mb-8 flex gap-2.5 overflow-x-auto shadow-md">
         {['All', 'Pending', 'Investigating', 'Resolved', 'Rejected'].map(st => (
           <button
             key={st}
             onClick={() => setFilterStatus(st)}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors ${
-              filterStatus === st ? 'bg-eco-600 text-white' : 'bg-surface-100 text-surface-600 hover:bg-surface-200'
+            className={`px-4.5 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all duration-200 cursor-pointer ${
+              filterStatus === st ? 'bg-[#143e2b] text-white shadow-md' : 'bg-white/80 text-[#4a554e] border border-[#eaeae4] hover:bg-[#ebf5ed]'
             }`}
           >
             {st}
@@ -63,34 +63,34 @@ export default function AdminReports() {
       ) : (
         <div className="space-y-4">
           {filteredReports.map(report => (
-            <div key={report.id} className="bg-white rounded-2xl border border-surface-200 p-5 flex flex-col md:flex-row md:items-start justify-between gap-4">
-              <div className="space-y-2 flex-1">
-                <div className="flex items-center gap-2">
-                  <span className="font-semibold text-surface-900">{report.centerName}</span>
-                  <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${
-                    report.status === 'pending' ? 'bg-amber-100 text-amber-800' :
-                    report.status === 'investigating' ? 'bg-blue-100 text-blue-800' :
-                    report.status === 'resolved' ? 'bg-emerald-100 text-emerald-800' : 'bg-surface-200 text-surface-700'
+            <div key={report.id} className="glass-card rounded-3xl border border-white/80 p-7 flex flex-col md:flex-row md:items-start justify-between gap-5 shadow-md">
+              <div className="space-y-2.5 flex-1">
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="font-extrabold font-display text-[#1b251f] text-base">{report.centerName}</span>
+                  <span className={`px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest ${
+                    report.status === 'pending' ? 'bg-amber-500/10 text-amber-800 border border-amber-500/30' :
+                    report.status === 'investigating' ? 'bg-blue-500/10 text-blue-800 border border-blue-500/30' :
+                    report.status === 'resolved' ? 'bg-[#ebf5ed] text-[#143e2b] border border-[#22c55e]/30' : 'bg-stone-100 text-stone-700 border border-[#eaeae4]'
                   }`}>
                     {report.status.toUpperCase()}
                   </span>
                 </div>
-                <p className="text-xs font-medium text-surface-500">Report Issue: <span className="text-surface-800">{report.type.replace('_', ' ')}</span></p>
-                <p className="text-sm text-surface-700 bg-surface-50 p-3 rounded-xl border border-surface-100">{report.description}</p>
-                <p className="text-[11px] text-surface-400">Reported by {report.userName} on {new Date(report.createdAt).toLocaleDateString()}</p>
+                <p className="text-xs font-semibold text-[#556358]">Report Issue: <span className="text-[#1b251f] font-bold capitalize">{report.type.replace('_', ' ')}</span></p>
+                <p className="text-xs text-[#4a554e] bg-white/80 p-4 rounded-2xl border border-[#eaeae4] leading-relaxed font-medium">{report.description}</p>
+                <p className="text-[11px] font-semibold text-[#788a7e]">Reported by {report.userName} on {new Date(report.createdAt).toLocaleDateString()}</p>
               </div>
 
               {report.status !== 'resolved' && report.status !== 'rejected' && (
-                <div className="flex items-center gap-2 shrink-0 pt-2 md:pt-0">
+                <div className="flex items-center gap-2.5 shrink-0 pt-2 md:pt-0">
                   <button
                     onClick={() => handleResolve(report.id)}
-                    className="flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 transition-colors"
+                    className="flex items-center gap-1.5 px-4.5 py-2.5 rounded-2xl text-xs font-bold text-white bg-[#143e2b] hover:bg-[#22c55e] transition-all cursor-pointer shadow-md"
                   >
                     <CheckCircle className="w-3.5 h-3.5" /> Resolve
                   </button>
                   <button
                     onClick={() => handleReject(report.id)}
-                    className="flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-semibold text-surface-700 bg-surface-100 hover:bg-surface-200 transition-colors"
+                    className="flex items-center gap-1.5 px-4.5 py-2.5 rounded-2xl text-xs font-bold text-[#4a554e] bg-white hover:bg-stone-100 transition-all border border-[#eaeae4] cursor-pointer"
                   >
                     <XCircle className="w-3.5 h-3.5" /> Reject
                   </button>
@@ -103,3 +103,4 @@ export default function AdminReports() {
     </AdminLayout>
   );
 }
+

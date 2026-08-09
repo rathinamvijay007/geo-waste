@@ -38,15 +38,15 @@ export default function AdminUsers() {
   return (
     <AdminLayout title="User Management" description="View and manage registered EcoDrop users">
       {/* Search Bar */}
-      <div className="bg-white rounded-2xl border border-surface-200 p-4 mb-6">
+      <div className="glass-card rounded-3xl border border-white/80 p-5 mb-8 shadow-md">
         <div className="relative w-full sm:w-80">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-surface-400" />
+          <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#788a7e]" />
           <input
             type="text"
             placeholder="Search user name or email..."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 rounded-xl border border-surface-300 text-sm bg-surface-50 focus:outline-none focus:ring-2 focus:ring-eco-500/20"
+            className="w-full pl-10 pr-4 py-2.5 rounded-2xl border border-[#eaeae4] text-xs font-semibold bg-white/80 text-[#1b251f] focus:outline-none focus:ring-4 focus:ring-[#22c55e]/15 focus:border-[#22c55e]"
           />
         </div>
       </div>
@@ -54,54 +54,54 @@ export default function AdminUsers() {
       {loading ? (
         <LoadingSpinner text="Loading users..." />
       ) : (
-        <div className="bg-white rounded-2xl border border-surface-200 overflow-hidden shadow-sm">
+        <div className="glass-panel rounded-3xl border border-white/80 overflow-hidden shadow-xl">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-surface-200 bg-surface-50 text-xs font-semibold text-surface-600 uppercase tracking-wider">
-                  <th className="py-3.5 px-4">User</th>
-                  <th className="py-3.5 px-4">Phone</th>
-                  <th className="py-3.5 px-4">Role</th>
-                  <th className="py-3.5 px-4">Joined Date</th>
-                  <th className="py-3.5 px-4">Status</th>
-                  <th className="py-3.5 px-4 text-right">Action</th>
+                <tr className="border-b border-[#eaeae4] bg-white/90 text-xs font-extrabold text-[#143e2b] uppercase tracking-widest">
+                  <th className="py-4 px-6">User</th>
+                  <th className="py-4 px-6">Phone</th>
+                  <th className="py-4 px-6">Role</th>
+                  <th className="py-4 px-6">Joined Date</th>
+                  <th className="py-4 px-6">Status</th>
+                  <th className="py-4 px-6 text-right">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-surface-100 text-sm">
+              <tbody className="divide-y divide-[#eaeae4] text-xs font-semibold">
                 {filteredUsers.map(user => (
-                  <tr key={user.id} className="hover:bg-surface-50/50 transition-colors">
-                    <td className="py-3.5 px-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-eco-100 text-eco-800 font-bold text-xs flex items-center justify-center">
+                  <tr key={user.id} className="hover:bg-[#ebf5ed]/60 transition-colors">
+                    <td className="py-4 px-6">
+                      <div className="flex items-center gap-3.5">
+                        <div className="w-9 h-9 rounded-2xl bg-[#143e2b] text-white font-extrabold text-xs flex items-center justify-center shadow-xs">
                           {user.name.charAt(0)}
                         </div>
                         <div>
-                          <p className="font-semibold text-surface-900">{user.name}</p>
-                          <p className="text-xs text-surface-500">{user.email}</p>
+                          <p className="font-bold text-[#1b251f]">{user.name}</p>
+                          <p className="text-xs text-[#556358] font-medium">{user.email}</p>
                         </div>
                       </div>
                     </td>
-                    <td className="py-3.5 px-4 text-surface-600">{user.phone}</td>
-                    <td className="py-3.5 px-4">
-                      <span className={`px-2 py-0.5 rounded text-xs font-medium ${
-                        user.role === 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-surface-100 text-surface-700'
+                    <td className="py-4 px-6 text-[#556358] font-medium">{user.phone}</td>
+                    <td className="py-4 px-6">
+                      <span className={`px-3 py-1 rounded-xl text-[11px] font-extrabold uppercase tracking-widest ${
+                        user.role === 'admin' ? 'bg-purple-500/10 text-purple-800 border border-purple-500/30' : 'bg-stone-100 text-stone-700 border border-[#eaeae4]'
                       }`}>
                         {user.role}
                       </span>
                     </td>
-                    <td className="py-3.5 px-4 text-surface-500 text-xs">
+                    <td className="py-4 px-6 text-[#788a7e] font-medium">
                       {new Date(user.createdAt).toLocaleDateString()}
                     </td>
-                    <td className="py-3.5 px-4">
+                    <td className="py-4 px-6">
                       <Badge variant={user.status === 'active' ? 'open' : 'closed'}>
                         {user.status}
                       </Badge>
                     </td>
-                    <td className="py-3.5 px-4 text-right">
+                    <td className="py-4 px-6 text-right">
                       <button
                         onClick={() => handleToggleStatus(user)}
-                        className={`p-1.5 rounded-lg transition-colors ${
-                          user.status === 'active' ? 'text-red-500 hover:bg-red-50' : 'text-emerald-600 hover:bg-emerald-50'
+                        className={`p-2 rounded-xl transition-all cursor-pointer ${
+                          user.status === 'active' ? 'text-rose-600 bg-rose-50 hover:bg-rose-600 hover:text-white' : 'text-[#22c55e] bg-[#ebf5ed] hover:bg-[#22c55e] hover:text-white'
                         }`}
                         title={user.status === 'active' ? 'Deactivate User' : 'Activate User'}
                       >
@@ -118,3 +118,4 @@ export default function AdminUsers() {
     </AdminLayout>
   );
 }
+

@@ -25,20 +25,21 @@ export default function FavoritesPage() {
   useEffect(() => { fetchFavorites(); }, []);
 
   return (
-    <div className="pt-24 pb-32 min-h-screen bg-surface-50">
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-10">
-        <div className="flex items-center gap-4 mb-10 pb-6 border-b border-surface-200/80">
-          <div className="w-12 h-12 rounded-2xl bg-rose-50 border border-rose-100 flex items-center justify-center shrink-0">
-            <Heart className="w-6 h-6 text-rose-600" />
+    <div className="py-24 sm:py-32 lg:py-40 min-h-screen bg-ambient-light">
+      <div className="max-w-8xl mx-auto px-6 sm:px-10 lg:px-16">
+        <div className="flex items-center gap-6 mb-16 pb-10 border-b border-[#eaeae4]">
+          <div className="w-16 h-16 rounded-3xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center shrink-0 shadow-md">
+            <Heart className="w-8 h-8 text-rose-600" />
           </div>
           <div>
-            <h1 className="text-3xl font-extrabold text-surface-900 tracking-tight">My Favorites</h1>
-            <p className="text-sm font-medium text-surface-500 mt-1">{favorites.length} saved drop-off centers</p>
+            <span className="text-xs font-extrabold uppercase tracking-widest text-[#143e2b] block mb-1">SAVED LOCATIONS</span>
+            <h1 className="text-4xl sm:text-5xl font-extrabold font-display text-[#1b251f] tracking-tight">My Favorites</h1>
+            <p className="text-base font-medium text-[#556358] mt-1">{favorites.length} saved drop-off centers</p>
           </div>
         </div>
 
         {loading && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12">
             {Array.from({ length: 3 }).map((_, i) => <CenterCardSkeleton key={i} />)}
           </div>
         )}
@@ -47,7 +48,7 @@ export default function FavoritesPage() {
 
         {!loading && !error && favorites.length === 0 && (
           <EmptyState
-            icon={<Heart className="w-10 h-10 text-surface-400" />}
+            icon={<Heart className="w-12 h-12 text-rose-500" />}
             title="No favorites saved yet"
             description="Explore verified drop-off centers and save your frequently visited locations for quick access."
             actionLabel="Explore Centers"
@@ -56,7 +57,7 @@ export default function FavoritesPage() {
         )}
 
         {!loading && !error && favorites.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-12">
             {favorites.map((fav, i) => (
               <CenterCard key={fav.id} center={fav.center} index={i} />
             ))}
@@ -66,3 +67,5 @@ export default function FavoritesPage() {
     </div>
   );
 }
+
+

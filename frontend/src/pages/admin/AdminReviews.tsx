@@ -42,41 +42,41 @@ export default function AdminReviews() {
       {loading ? (
         <LoadingSpinner text="Loading reviews..." />
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-4">
           {reviews.map(review => (
-            <div key={review.id} className="bg-white rounded-2xl border border-surface-200 p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div className="space-y-1.5 flex-1">
-                <div className="flex items-center gap-2">
-                  <span className="font-semibold text-surface-900 text-sm">{review.userName}</span>
-                  <span className="text-xs text-surface-400">reviewed</span>
-                  <span className="font-semibold text-eco-700 text-sm">{review.centerName}</span>
+            <div key={review.id} className="glass-card rounded-3xl border border-white/80 p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-md">
+              <div className="space-y-2 flex-1">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="font-extrabold text-[#1b251f] text-sm">{review.userName}</span>
+                  <span className="text-xs text-[#788a7e]">reviewed</span>
+                  <span className="font-extrabold text-[#143e2b] text-sm">{review.centerName}</span>
                   {review.status === 'flagged' && (
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800">
+                    <span className="px-3 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-widest bg-amber-500/10 text-amber-800 border border-amber-500/30">
                       FLAGGED
                     </span>
                   )}
                 </div>
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1.5">
                   {[1, 2, 3, 4, 5].map(s => (
-                    <Star key={s} className={`w-3.5 h-3.5 ${s <= review.rating ? 'text-amber-500 fill-amber-500' : 'text-surface-300'}`} />
+                    <Star key={s} className={`w-3.5 h-3.5 ${s <= review.rating ? 'text-amber-500 fill-amber-500' : 'text-stone-300'}`} />
                   ))}
-                  <span className="text-xs text-surface-400 ml-2">{new Date(review.createdAt).toLocaleDateString()}</span>
+                  <span className="text-xs text-[#788a7e] font-semibold ml-2">{new Date(review.createdAt).toLocaleDateString()}</span>
                 </div>
-                <p className="text-sm text-surface-700">{review.comment}</p>
+                <p className="text-xs text-[#4a554e] leading-relaxed font-medium">{review.comment}</p>
               </div>
 
-              <div className="flex items-center gap-2 self-end md:self-center">
+              <div className="flex items-center gap-2.5 self-end md:self-center shrink-0">
                 {review.status !== 'flagged' && (
                   <button
                     onClick={() => handleFlag(review.id)}
-                    className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium text-amber-700 bg-amber-50 hover:bg-amber-100 transition-colors"
+                    className="flex items-center gap-1.5 px-4 py-2 rounded-2xl text-xs font-bold text-amber-800 bg-amber-500/10 hover:bg-amber-500/20 transition-all border border-amber-500/30 cursor-pointer"
                   >
                     <Flag className="w-3.5 h-3.5" /> Flag
                   </button>
                 )}
                 <button
                   onClick={() => handleRemove(review.id)}
-                  className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 transition-colors"
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-2xl text-xs font-bold text-rose-600 bg-rose-50 hover:bg-rose-600 hover:text-white transition-all cursor-pointer shadow-2xs"
                 >
                   <Trash2 className="w-3.5 h-3.5" /> Remove
                 </button>
@@ -88,3 +88,4 @@ export default function AdminReviews() {
     </AdminLayout>
   );
 }
+

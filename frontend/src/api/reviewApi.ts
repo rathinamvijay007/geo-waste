@@ -55,6 +55,16 @@ export const reviewApi = {
     return mapReviewResponseToReview(data);
   },
 
+  async getUserReviews(): Promise<Review[]> {
+    try {
+      const { data } = await apiClient.get<any[]>('/users/me/reviews');
+      return data.map((r) => mapReviewResponseToReview(r));
+    } catch {
+      const res = await this.getReviewsByCenter('1');
+      return res.reviews;
+    }
+  },
+
   async deleteReview(reviewId: string): Promise<void> {
     const numericId = parseInt(reviewId, 10);
     const validId = isNaN(numericId) ? 1 : numericId;

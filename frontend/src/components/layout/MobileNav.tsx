@@ -18,8 +18,8 @@ export default function MobileNav() {
   if (location.pathname.startsWith('/admin')) return null;
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-t border-surface-200 safe-area-bottom">
-      <div className="flex items-center justify-around h-16 px-2">
+    <nav className="md:hidden fixed bottom-3 left-4 right-4 z-40 bg-white/90 backdrop-blur-2xl border border-white/60 shadow-2xl rounded-full p-1.5 safe-area-bottom">
+      <div className="flex items-center justify-around h-14">
         {navItems.map(item => {
           const isActive = item.to === '/'
             ? location.pathname === '/'
@@ -34,14 +34,14 @@ export default function MobileNav() {
             <Link
               key={item.to}
               to={isAuthenticated ? item.to : (item.to === '/favorites' || item.to === '/dashboard' || item.to === '/profile') ? '/login' : item.to}
-              className={`flex flex-col items-center gap-0.5 py-1 px-3 rounded-xl transition-colors ${
+              className={`flex flex-col items-center justify-center gap-0.5 px-4 py-1.5 rounded-full transition-all duration-200 ${
                 isActive
-                  ? 'text-eco-600'
-                  : 'text-surface-400 hover:text-surface-600'
+                  ? 'bg-[#143e2b] text-white shadow-md'
+                  : 'text-[#556358] hover:text-[#143e2b]'
               }`}
             >
-              <item.icon className={`w-5 h-5 ${isActive ? 'stroke-[2.5px]' : ''}`} />
-              <span className="text-[10px] font-medium">{item.label}</span>
+              <item.icon className={`w-4 h-4 ${isActive ? 'stroke-[2.5px]' : ''}`} />
+              <span className="text-[10px] font-bold tracking-tight">{item.label}</span>
             </Link>
           );
         })}
@@ -49,3 +49,4 @@ export default function MobileNav() {
     </nav>
   );
 }
+

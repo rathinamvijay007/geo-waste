@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import {
-  Star, MapPin, Phone, Clock, Navigation, Flag, ChevronLeft,
-  CheckCircle, Mail
+  Star, MapPin, Clock, Navigation, Flag, ChevronLeft,
+  CheckCircle
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { centerApi } from '../api/centerApi';
@@ -105,50 +105,50 @@ export default function CenterDetailsPage() {
     }
   };
 
-  if (loading) return <div className="pt-28"><LoadingSpinner text="Loading center details..." size="lg" /></div>;
-  if (error || !center) return <div className="pt-28"><ErrorState message={error || 'Center not found.'} /></div>;
+  if (loading) return <div className="pt-28"><LoadingSpinner text="Loading center information..." size="lg" /></div>;
+  if (error || !center) return <div className="pt-28"><ErrorState message={error || 'Center not found'} /></div>;
 
   const avgRating = center.rating;
 
   return (
-    <div className="pt-24 pb-32 min-h-screen bg-surface-50">
-      <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-12 py-10">
+    <div className="py-20 sm:py-28 lg:py-36 min-h-screen bg-ambient-light">
+      <div className="max-w-5xl lg:max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
         {/* Back link */}
-        <Link to="/explore" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-surface-500 hover:text-eco-800 mb-8 group transition-colors">
-          <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+        <Link to="/explore" className="inline-flex items-center gap-2.5 text-xs font-bold uppercase tracking-widest text-[#143e2b] hover:underline mb-10 group transition-colors">
+          <ChevronLeft className="w-4.5 h-4.5 group-hover:-translate-x-1 transition-transform text-[#22c55e]" />
           <span>Back to Explore</span>
         </Link>
 
         {/* Hero Business Header Card */}
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="mb-10">
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="mb-14 space-y-10">
           {/* Banner Photo Placeholder */}
-          <div className="w-full h-56 sm:h-72 rounded-3xl bg-gradient-to-br from-eco-950 via-eco-900 to-eco-950 flex items-center justify-center mb-8 border border-eco-900/10 shadow-md relative overflow-hidden">
-            <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#22c55e_1px,transparent_1px)] [background-size:16px_16px]" />
-            <div className="relative text-center p-8">
-              <div className="w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-md flex items-center justify-center mx-auto mb-4 border border-white/15">
-                <MapPin className="w-8 h-8 text-eco-300" />
+          <div className="w-full h-64 sm:h-80 lg:h-96 rounded-3xl bg-ambient-dark flex items-center justify-center border border-white/10 shadow-2xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-[#22c55e]/12 rounded-full blur-3xl pointer-events-none" />
+            <div className="relative z-10 text-center p-10">
+              <div className="w-22 h-22 rounded-3xl bg-white/10 backdrop-blur-md flex items-center justify-center mx-auto mb-5 border border-white/15 shadow-md">
+                <MapPin className="w-10 h-10 text-[#4ade80]" />
               </div>
-              <p className="text-base font-semibold text-white tracking-wide">CPCB Certified Drop-off Facility</p>
+              <p className="text-lg font-extrabold font-display text-white tracking-wide">CPCB Certified Drop-off Facility</p>
             </div>
           </div>
 
           {/* Header Info */}
-          <div className="bg-white rounded-3xl border border-surface-200/80 p-8 sm:p-10 shadow-2xs space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6">
-              <div className="space-y-3">
+          <div className="glass-panel rounded-3xl border border-white/80 p-10 sm:p-14 lg:p-16 shadow-2xl space-y-9">
+            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-8">
+              <div className="space-y-4">
                 <div className="flex flex-wrap items-center gap-3">
-                  <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-surface-900 tracking-tight">{center.name}</h1>
-                  {center.verified && <Badge variant="verified">Verified</Badge>}
+                  <h1 className="text-4xl sm:text-5xl font-black font-display text-[#1b251f] tracking-tight">{center.name}</h1>
+                  {center.verified && <Badge variant="verified">Verified Hub</Badge>}
                 </div>
-                <div className="flex flex-wrap items-center gap-4 text-sm text-surface-500 font-medium">
-                  <span className="flex items-center gap-1.5">
-                    <Star className="w-4 h-4 text-amber-500 fill-amber-500 shrink-0" />
-                    <span className="font-bold text-surface-800">{center.rating}</span>
-                    <span className="text-surface-400">({center.reviewCount} reviews)</span>
+                <div className="flex flex-wrap items-center gap-5 text-base text-[#556358] font-semibold">
+                  <span className="flex items-center gap-2">
+                    <Star className="w-5 h-5 text-[#143e2b] fill-[#143e2b] shrink-0" />
+                    <span className="font-black text-[#1b251f]">{center.rating}</span>
+                    <span className="text-[#788a7e]">({center.reviewCount} reviews)</span>
                   </span>
                   <span>•</span>
-                  <span className="flex items-center gap-1.5 text-surface-600">
-                    <MapPin className="w-4 h-4 text-surface-400 shrink-0" /> {center.distance} km away
+                  <span className="flex items-center gap-2 text-[#4a554e]">
+                    <MapPin className="w-5 h-5 text-[#788a7e] shrink-0" /> {center.distance} km away
                   </span>
                   <span>•</span>
                   <Badge variant={center.isOpen ? 'open' : 'closed'}>
@@ -160,168 +160,142 @@ export default function CenterDetailsPage() {
             </div>
 
             {/* Action Buttons */}
-            <div className="flex flex-wrap items-center gap-4 pt-6 border-t border-surface-100">
+            <div className="flex flex-wrap items-center gap-5 pt-8 border-t border-[#eaeae4]">
               <a
                 href={`https://www.google.com/maps/dir/?api=1&destination=${center.latitude},${center.longitude}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Button size="lg" leftIcon={<Navigation className="w-4 h-4" />}>
+                <Button size="lg" className="shadow-lg shadow-[#143e2b]/25" leftIcon={<Navigation className="w-5 h-5" />}>
                   Get Directions
                 </Button>
               </a>
-              <Button variant="secondary" size="lg" leftIcon={<Star className="w-4 h-4" />} onClick={() => setShowReviewModal(true)}>
+              <Button variant="secondary" size="lg" leftIcon={<Star className="w-5 h-5" />} onClick={() => setShowReviewModal(true)}>
                 Write Review
               </Button>
-              <Button variant="outline" size="lg" leftIcon={<Flag className="w-4 h-4" />} onClick={() => setShowReportModal(true)}>
+              <Button variant="outline" size="lg" leftIcon={<Flag className="w-5 h-5" />} onClick={() => setShowReportModal(true)}>
                 Report Information
               </Button>
             </div>
           </div>
         </motion.div>
 
-        {/* Info Grid */}
-        <div className="grid sm:grid-cols-2 gap-8 mb-10">
-          {/* Contact Details */}
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-            className="bg-white rounded-3xl border border-surface-200/80 p-8 space-y-5 shadow-2xs"
-          >
-            <h3 className="text-xs font-bold uppercase tracking-wider text-surface-700">Contact & Address</h3>
-            <div className="space-y-4 text-sm">
-              <div className="flex items-start gap-3.5">
-                <MapPin className="w-5 h-5 text-eco-700 mt-0.5 shrink-0" />
-                <span className="text-surface-700 leading-relaxed font-normal">{center.address}, {center.city}, {center.state}</span>
-              </div>
-              <div className="flex items-center gap-3.5">
-                <Phone className="w-5 h-5 text-eco-700 shrink-0" />
-                <span className="text-surface-800 font-semibold">{center.phone}</span>
-              </div>
-              {center.email && (
-                <div className="flex items-center gap-3.5">
-                  <Mail className="w-5 h-5 text-eco-700 shrink-0" />
-                  <span className="text-surface-700">{center.email}</span>
-                </div>
-              )}
-            </div>
-          </motion.div>
-
-          {/* Operating Hours — Well-Separated */}
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
-            className="bg-white rounded-3xl border border-surface-200/80 p-8 shadow-2xs space-y-4"
-          >
-            <h3 className="text-xs font-bold uppercase tracking-wider text-surface-700 flex items-center gap-2">
-              <Clock className="w-4 h-4 text-eco-700" /> Weekly Schedule
-            </h3>
-            <div className="space-y-2">
-              {center.operatingHours.map(h => {
-                const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-                const isToday = h.day === days[new Date().getDay()];
-                return (
-                  <div key={h.day} className={`flex items-center justify-between text-xs sm:text-sm py-2 px-3.5 rounded-xl transition-colors ${isToday ? 'bg-eco-50 border border-eco-200/80 font-bold text-eco-950' : 'text-surface-600'}`}>
-                    <span>{h.day} {isToday && <span className="text-[10px] uppercase tracking-wider font-extrabold ml-1.5 text-eco-700">(Today)</span>}</span>
-                    <span className="font-medium">{h.isClosed ? 'Closed' : `${h.open} - ${h.close}`}</span>
-                  </div>
-                );
-              })}
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Accepted Waste Grid — Feature #15 */}
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-          className="bg-white rounded-3xl border border-surface-200/80 p-8 sm:p-9 mb-10 shadow-2xs space-y-5"
+        {/* Operating Hours */}
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
+          className="glass-card rounded-3xl border border-white/80 p-8 sm:p-10 shadow-md space-y-6 mb-10"
         >
-          <h3 className="text-xs font-bold uppercase tracking-wider text-surface-700">Accepted Waste Categories</h3>
+          <h3 className="text-xs font-extrabold uppercase tracking-widest text-[#143e2b] flex items-center gap-2">
+            <Clock className="w-4 h-4 text-[#22c55e]" /> Weekly Schedule
+          </h3>
+          <div className="space-y-2">
+            {center.operatingHours.map(h => {
+              const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+              const isToday = h.day === days[new Date().getDay()];
+              return (
+                <div key={h.day} className={`flex items-center justify-between text-xs sm:text-sm py-2 px-4 rounded-xl transition-colors ${isToday ? 'bg-[#ebf5ed] border border-[#22c55e]/30 font-bold text-[#143e2b]' : 'text-[#4a554e]'}`}>
+                  <span>{h.day} {isToday && <span className="text-[10px] uppercase tracking-widest font-black ml-1.5 text-[#22c55e]">(Today)</span>}</span>
+                  <span className="font-bold">{h.isClosed ? 'Closed' : `${h.open} - ${h.close}`}</span>
+                </div>
+              );
+            })}
+          </div>
+        </motion.div>
+
+        {/* Accepted Waste Grid */}
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+          className="glass-card rounded-3xl border border-white/80 p-8 sm:p-10 mb-10 shadow-md space-y-6"
+        >
+          <h3 className="text-xs font-extrabold uppercase tracking-widest text-[#143e2b]">Accepted Waste Categories</h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             {center.acceptedWaste.map(w => (
-              <div key={w} className="flex items-center gap-3 p-4 rounded-2xl bg-eco-50/60 border border-eco-200/60 text-eco-950">
-                <CheckCircle className="w-4 h-4 text-eco-700 shrink-0" />
-                <span className="text-sm font-semibold">{w}</span>
+              <div key={w} className="flex items-center gap-3 p-4 rounded-2xl bg-[#ebf5ed]/80 border border-[#22c55e]/30 text-[#143e2b]">
+                <CheckCircle className="w-4 h-4 text-[#22c55e] shrink-0" />
+                <span className="text-xs font-bold">{w}</span>
               </div>
             ))}
           </div>
         </motion.div>
 
         {/* About Description */}
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}
-          className="bg-white rounded-3xl border border-surface-200/80 p-8 sm:p-9 mb-10 shadow-2xs space-y-3"
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}
+          className="glass-card rounded-3xl border border-white/80 p-8 sm:p-10 mb-10 shadow-md space-y-3"
         >
-          <h3 className="text-xs font-bold uppercase tracking-wider text-surface-700">About This Facility</h3>
-          <p className="text-base text-surface-600 leading-relaxed font-normal">{center.description}</p>
+          <h3 className="text-xs font-extrabold uppercase tracking-widest text-[#143e2b]">About This Facility</h3>
+          <p className="text-sm text-[#4a554e] leading-relaxed font-medium">{center.description}</p>
         </motion.div>
 
-        {/* Reviews Section — Readable Review Cards */}
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-          className="bg-white rounded-3xl border border-surface-200/80 p-8 sm:p-10 shadow-2xs space-y-8"
+        {/* Reviews Section */}
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+          className="glass-panel rounded-3xl border border-white/80 p-8 sm:p-10 shadow-2xl space-y-8"
         >
-          <div className="flex items-center justify-between pb-5 border-b border-surface-100">
-            <h3 className="text-xl font-bold text-surface-900">Community Reviews ({reviews.length})</h3>
+          <div className="flex items-center justify-between pb-5 border-b border-[#eaeae4]">
+            <h3 className="text-2xl font-extrabold font-display text-[#1b251f]">Community Reviews ({reviews.length})</h3>
             <Button size="md" variant="secondary" onClick={() => setShowReviewModal(true)}>
               Write Review
             </Button>
           </div>
 
           {/* Rating Summary Breakdown */}
-          <div className="flex flex-col sm:flex-row gap-8 pb-8 border-b border-surface-100 items-center">
+          <div className="flex flex-col sm:flex-row gap-8 pb-8 border-b border-[#eaeae4] items-center">
             <div className="text-center sm:text-left shrink-0">
-              <p className="text-5xl font-extrabold text-surface-900 tracking-tight">{avgRating}</p>
+              <p className="text-5xl font-black font-display text-[#1b251f] tracking-tight">{avgRating}</p>
               <div className="flex items-center justify-center sm:justify-start gap-1 my-2">
                 {[1, 2, 3, 4, 5].map(s => (
-                  <Star key={s} className={`w-4 h-4 ${s <= Math.round(avgRating) ? 'text-amber-500 fill-amber-500' : 'text-surface-300'}`} />
+                  <Star key={s} className={`w-4 h-4 ${s <= Math.round(avgRating) ? 'text-amber-500 fill-amber-500' : 'text-stone-300'}`} />
                 ))}
               </div>
-              <p className="text-xs font-semibold text-surface-500">{center.reviewCount} total reviews</p>
+              <p className="text-xs font-bold text-[#556358]">{center.reviewCount} total reviews</p>
             </div>
             <div className="flex-1 w-full space-y-2.5">
               {distribution.map(d => (
                 <div key={d.stars} className="flex items-center gap-3">
-                  <span className="text-xs font-semibold text-surface-600 w-4">{d.stars}</span>
+                  <span className="text-xs font-bold text-[#4a554e] w-4">{d.stars}</span>
                   <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500 shrink-0" />
-                  <div className="flex-1 h-2.5 bg-surface-100 rounded-full overflow-hidden">
+                  <div className="flex-1 h-3 bg-stone-100 rounded-full overflow-hidden p-0.5 border border-[#eaeae4]">
                     <div className="h-full bg-amber-500 rounded-full transition-all duration-500" style={{ width: `${d.percentage}%` }} />
                   </div>
-                  <span className="text-xs font-semibold text-surface-500 w-10 text-right">{d.percentage}%</span>
+                  <span className="text-xs font-bold text-[#556358] w-10 text-right">{d.percentage}%</span>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Review List — Readable & Separated Cards */}
+          {/* Review List */}
           {reviews.length === 0 ? (
-            <p className="text-sm text-surface-500 text-center py-10">No reviews yet. Be the first to share your experience!</p>
+            <p className="text-sm text-[#556358] text-center py-10 font-medium">No reviews yet. Be the first to share your experience!</p>
           ) : (
             <div className="space-y-5">
               {reviews.map(review => (
-                <div key={review.id} className="p-6 bg-surface-50/70 rounded-2xl border border-surface-200/60 space-y-3">
+                <div key={review.id} className="p-6 bg-white/80 backdrop-blur-md rounded-3xl border border-[#eaeae4] space-y-3 shadow-2xs">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-2xl bg-eco-100 text-eco-900 font-bold text-sm flex items-center justify-center border border-eco-200">
+                    <div className="flex items-center gap-3.5">
+                      <div className="w-10 h-10 rounded-2xl bg-[#143e2b] text-white font-extrabold text-sm flex items-center justify-center shadow-xs">
                         {review.userName.charAt(0)}
                       </div>
                       <div>
-                        <p className="text-sm font-bold text-surface-900">{review.userName}</p>
+                        <p className="text-sm font-bold text-[#1b251f]">{review.userName}</p>
                         <div className="flex items-center gap-1 mt-0.5">
                           {[1, 2, 3, 4, 5].map(s => (
-                            <Star key={s} className={`w-3.5 h-3.5 ${s <= review.rating ? 'text-amber-500 fill-amber-500' : 'text-surface-300'}`} />
+                            <Star key={s} className={`w-3.5 h-3.5 ${s <= review.rating ? 'text-amber-500 fill-amber-500' : 'text-stone-300'}`} />
                           ))}
                         </div>
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className="text-xs font-medium text-surface-400">
+                      <span className="text-xs font-semibold text-[#788a7e]">
                         {new Date(review.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
                       </span>
                       {review.userId === 'u-1' && (
                         <button
                           onClick={() => handleDeleteReview(review.id)}
-                          className="text-xs font-bold text-red-600 hover:text-red-700 cursor-pointer"
+                          className="text-xs font-extrabold text-rose-600 hover:underline cursor-pointer"
                         >
                           Delete
                         </button>
                       )}
                     </div>
                   </div>
-                  <p className="text-sm text-surface-700 leading-relaxed font-normal">{review.comment}</p>
+                  <p className="text-sm text-[#4a554e] leading-relaxed font-medium">{review.comment}</p>
                 </div>
               ))}
             </div>
@@ -330,10 +304,10 @@ export default function CenterDetailsPage() {
       </div>
 
       {/* Write Review Modal */}
-      <Modal isOpen={showReviewModal} onClose={() => setShowReviewModal(false)} title="Write a Review" size="md">
+      <Modal isOpen={showReviewModal} onClose={() => setShowReviewModal(false)} title="Write a Review">
         <div className="space-y-6">
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-surface-700 mb-3">Select Your Rating</label>
+            <label className="block text-xs font-extrabold uppercase tracking-widest text-[#143e2b] mb-3">Select Your Rating</label>
             <div className="flex gap-2">
               {[1, 2, 3, 4, 5].map(s => (
                 <button
@@ -346,20 +320,20 @@ export default function CenterDetailsPage() {
                   <Star className={`w-8 h-8 transition-colors ${
                     s <= (reviewHover || reviewRating)
                       ? 'text-amber-500 fill-amber-500'
-                      : 'text-surface-300'
+                      : 'text-stone-300'
                   }`} />
                 </button>
               ))}
             </div>
           </div>
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-surface-700 mb-2">Your Feedback</label>
+            <label className="block text-xs font-extrabold uppercase tracking-widest text-[#143e2b] mb-2">Your Feedback</label>
             <textarea
               value={reviewComment}
               onChange={e => setReviewComment(e.target.value)}
               rows={4}
               placeholder="Tell others about your experience dropping off materials at this center..."
-              className="w-full px-4 py-3 rounded-2xl border border-surface-200 text-sm text-surface-900 focus:ring-2 focus:ring-eco-600/20 focus:border-eco-600 outline-none resize-none"
+              className="w-full px-4.5 py-3.5 rounded-2xl border border-[#d5ded8] bg-white text-sm font-medium text-[#1b251f] focus:ring-4 focus:ring-[#22c55e]/15 focus:border-[#22c55e] outline-none resize-none"
             />
           </div>
           <div className="flex gap-3 justify-end pt-2">
@@ -372,10 +346,10 @@ export default function CenterDetailsPage() {
       </Modal>
 
       {/* Report Modal */}
-      <Modal isOpen={showReportModal} onClose={() => setShowReportModal(false)} title="Report Incorrect Information" size="md">
+      <Modal isOpen={showReportModal} onClose={() => setShowReportModal(false)} title="Report Incorrect Information">
         <div className="space-y-6">
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-surface-700 mb-3">Select Issue Type</label>
+            <label className="block text-xs font-extrabold uppercase tracking-widest text-[#143e2b] mb-3">Select Issue Type</label>
             <div className="space-y-3">
               {reportTypes.map(rt => (
                 <label key={rt.value} className="flex items-center gap-3 cursor-pointer group py-1">
@@ -384,21 +358,21 @@ export default function CenterDetailsPage() {
                     name="reportType"
                     checked={reportType === rt.value}
                     onChange={() => setReportType(rt.value as ReportFormData['type'])}
-                    className="w-4 h-4 border-surface-300 text-eco-700 focus:ring-eco-600 cursor-pointer"
+                    className="w-4 h-4 border-[#d5ded8] text-[#143e2b] focus:ring-[#22c55e] cursor-pointer accent-[#143e2b]"
                   />
-                  <span className="text-sm font-semibold text-surface-700 group-hover:text-surface-900">{rt.label}</span>
+                  <span className="text-xs font-bold text-[#1b251f] group-hover:text-[#143e2b]">{rt.label}</span>
                 </label>
               ))}
             </div>
           </div>
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-surface-700 mb-2">Description</label>
+            <label className="block text-xs font-extrabold uppercase tracking-widest text-[#143e2b] mb-2">Description</label>
             <textarea
               value={reportDescription}
               onChange={e => setReportDescription(e.target.value)}
               rows={3}
               placeholder="Provide specific details about what needs to be updated..."
-              className="w-full px-4 py-3 rounded-2xl border border-surface-200 text-sm text-surface-900 focus:ring-2 focus:ring-eco-600/20 focus:border-eco-600 outline-none resize-none"
+              className="w-full px-4.5 py-3.5 rounded-2xl border border-[#d5ded8] bg-white text-sm font-medium text-[#1b251f] focus:ring-4 focus:ring-[#22c55e]/15 focus:border-[#22c55e] outline-none resize-none"
             />
           </div>
           <div className="flex gap-3 justify-end pt-2">

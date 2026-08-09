@@ -35,34 +35,34 @@ export default function Modal({ isOpen, onClose, title, children, size = 'md' }:
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+            className="absolute inset-0 bg-[#070e0b]/60 backdrop-blur-md"
             onClick={onClose}
           />
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 10 }}
+            initial={{ opacity: 0, scale: 0.96, y: 16 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 10 }}
-            transition={{ type: 'spring', duration: 0.3 }}
-            className={`relative w-full ${sizeStyles[size]} bg-white rounded-2xl shadow-xl overflow-hidden`}
+            exit={{ opacity: 0, scale: 0.96, y: 16 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 320 }}
+            className={`relative w-full ${sizeStyles[size]} bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/60 overflow-hidden z-10`}
           >
             {title && (
-              <div className="flex items-center justify-between px-6 py-4 border-b border-surface-200">
-                <h2 className="text-lg font-semibold text-surface-900">{title}</h2>
+              <div className="flex items-center justify-between px-7 py-5 border-b border-[#eaeae4] bg-white/50">
+                <h2 className="text-xl font-bold font-display text-[#1b251f] tracking-tight">{title}</h2>
                 <button
                   onClick={onClose}
-                  className="p-1.5 rounded-lg text-surface-400 hover:text-surface-600 hover:bg-surface-100 transition-colors"
+                  className="p-2 rounded-full text-[#556358] hover:text-[#143e2b] hover:bg-[#ebf5ed] transition-colors cursor-pointer"
                   aria-label="Close modal"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
             )}
-            <div className="px-6 py-5 max-h-[80vh] overflow-y-auto">
+            <div className="px-7 py-6 max-h-[80vh] overflow-y-auto">
               {children}
             </div>
           </motion.div>
@@ -71,3 +71,4 @@ export default function Modal({ isOpen, onClose, title, children, size = 'md' }:
     </AnimatePresence>
   );
 }
+

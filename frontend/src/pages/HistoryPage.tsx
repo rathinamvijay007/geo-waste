@@ -39,16 +39,17 @@ export default function HistoryPage() {
   };
 
   return (
-    <div className="pt-24 pb-32 min-h-screen bg-surface-50">
-      <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-12 py-10">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10 pb-6 border-b border-surface-200/80">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center shrink-0">
-              <Clock className="w-6 h-6 text-blue-600" />
+    <div className="py-24 sm:py-32 lg:py-40 min-h-screen bg-ambient-light">
+      <div className="max-w-6xl lg:max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-16 pb-10 border-b border-[#eaeae4]">
+          <div className="flex items-center gap-6">
+            <div className="w-16 h-16 rounded-3xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center shrink-0 shadow-md">
+              <Clock className="w-8 h-8 text-blue-700" />
             </div>
             <div>
-              <h1 className="text-3xl font-extrabold text-surface-900 tracking-tight">Search History</h1>
-              <p className="text-sm font-medium text-surface-500 mt-1">{history.length} past searches saved</p>
+              <span className="text-xs font-extrabold uppercase tracking-widest text-[#143e2b] block mb-1">SEARCH ACTIVITY</span>
+              <h1 className="text-4xl sm:text-5xl font-extrabold font-display text-[#1b251f] tracking-tight">Search History</h1>
+              <p className="text-base font-medium text-[#556358] mt-1">{history.length} past searches saved</p>
             </div>
           </div>
           {history.length > 0 && (
@@ -59,14 +60,14 @@ export default function HistoryPage() {
         </div>
 
         {loading ? (
-          <div className="space-y-4">
+          <div className="space-y-6">
             {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="animate-pulse bg-white rounded-2xl p-6 border border-surface-200/80">
-                <div className="flex gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-surface-200" />
-                  <div className="flex-1 space-y-2">
-                    <div className="h-5 w-1/3 bg-surface-200 rounded-lg" />
-                    <div className="h-4 w-1/4 bg-surface-200 rounded-lg" />
+              <div key={i} className="animate-pulse bg-white/80 rounded-3xl p-8 border border-[#eaeae4]">
+                <div className="flex gap-5">
+                  <div className="w-14 h-14 rounded-2xl bg-stone-200" />
+                  <div className="flex-1 space-y-3">
+                    <div className="h-6 w-1/3 bg-stone-200 rounded-lg" />
+                    <div className="h-4 w-1/4 bg-stone-200 rounded-lg" />
                   </div>
                 </div>
               </div>
@@ -74,47 +75,47 @@ export default function HistoryPage() {
           </div>
         ) : history.length === 0 ? (
           <EmptyState
-            icon={<Search className="w-10 h-10 text-surface-400" />}
+            icon={<Search className="w-12 h-12 text-blue-600" />}
             title="No search history"
             description="Your recent search queries will appear here so you can quickly revisit them anytime."
             actionLabel="Start Searching"
             onAction={() => navigate('/explore')}
           />
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-6">
             {history.map((item, i) => (
               <motion.div
                 key={item.id}
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.04 }}
-                className="bg-white rounded-3xl border border-surface-200/80 p-6 flex items-center justify-between gap-6 group hover:border-eco-300 hover:shadow-md transition-all duration-300"
+                className="glass-card rounded-3xl border border-white/80 p-7 sm:p-8 flex items-center justify-between gap-8 group hover:border-[#22c55e]/40 shadow-lg transition-all duration-300"
               >
-                <div className="flex items-center gap-4 flex-1 min-w-0">
-                  <div className="w-12 h-12 rounded-2xl bg-surface-100 flex items-center justify-center text-surface-600 shrink-0">
-                    <Compass className="w-6 h-6" />
+                <div className="flex items-center gap-5 flex-1 min-w-0">
+                  <div className="w-14 h-14 rounded-2xl bg-[#ebf5ed] flex items-center justify-center text-[#143e2b] shrink-0 font-bold">
+                    <Compass className="w-7 h-7" />
                   </div>
-                  <div className="flex-1 min-w-0 space-y-1">
-                    <p className="text-base font-bold text-surface-900 truncate">{item.query}</p>
-                    <div className="flex flex-wrap items-center gap-3 text-xs font-medium text-surface-500">
-                      <span className="px-2.5 py-0.5 rounded-full bg-eco-50 text-eco-800 font-semibold border border-eco-200/60">{item.wasteType}</span>
+                  <div className="flex-1 min-w-0 space-y-1.5">
+                    <p className="text-lg font-bold text-[#1b251f] truncate">{item.query}</p>
+                    <div className="flex flex-wrap items-center gap-3.5 text-xs font-semibold text-[#556358]">
+                      <span className="px-3.5 py-1 rounded-full bg-[#ebf5ed] text-[#143e2b] font-extrabold border border-[#22c55e]/30">{item.wasteType}</span>
                       <span>{item.location}</span>
                       <span>•</span>
                       <span>{formatDate(item.date)}</span>
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 shrink-0">
+                <div className="flex items-center gap-3 shrink-0">
                   <button
                     onClick={() => navigate(`/explore?waste=${item.wasteType}`)}
-                    className="p-2.5 rounded-xl hover:bg-eco-50 text-eco-700 transition-colors cursor-pointer"
+                    className="p-3.5 rounded-2xl bg-[#ebf5ed] hover:bg-[#143e2b] text-[#143e2b] hover:text-white transition-all cursor-pointer shadow-2xs"
                     aria-label="Search again"
                   >
                     <Search className="w-5 h-5" />
                   </button>
                   <button
                     onClick={() => handleDelete(item.id)}
-                    className="p-2.5 rounded-xl hover:bg-red-50 text-red-500 transition-colors cursor-pointer"
+                    className="p-3.5 rounded-2xl bg-rose-50 hover:bg-rose-600 text-rose-600 hover:text-white transition-all cursor-pointer shadow-2xs"
                     aria-label="Delete search"
                   >
                     <Trash2 className="w-5 h-5" />
@@ -128,3 +129,5 @@ export default function HistoryPage() {
     </div>
   );
 }
+
+

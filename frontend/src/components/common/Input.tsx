@@ -16,13 +16,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="w-full">
         {label && (
-          <label htmlFor={inputId} className="block text-xs font-semibold uppercase tracking-wider text-surface-600 mb-2">
+          <label htmlFor={inputId} className="block text-[11px] font-bold uppercase tracking-widest text-[#4a554e] mb-2">
             {label}
           </label>
         )}
         <div className="relative">
           {icon && (
-            <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-surface-400">
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[#788a7e] pointer-events-none transition-colors">
               {icon}
             </div>
           )}
@@ -30,10 +30,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             id={inputId}
             type={isPassword && showPassword ? 'text' : type}
-            className={`w-full rounded-xl border bg-white text-surface-900 placeholder:text-surface-400 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-eco-600/20 focus:border-eco-600 ${
-              icon ? 'pl-10' : 'pl-4'
-            } ${isPassword ? 'pr-10' : 'pr-4'} py-3 text-sm shadow-2xs ${
-              error ? 'border-red-400 focus:ring-red-500/20 focus:border-red-500' : 'border-surface-200'
+            className={`w-full rounded-2xl border bg-white/70 backdrop-blur-md text-[#1b251f] placeholder:text-[#8b9b90] transition-all duration-300 focus:outline-none focus:bg-white focus:ring-4 focus:ring-[#22c55e]/15 focus:border-[#22c55e] ${
+              icon ? 'pl-11' : 'pl-4.5'
+            } ${isPassword ? 'pr-11' : 'pr-4.5'} py-3.5 text-sm shadow-xs ${
+              error ? 'border-rose-400 focus:ring-rose-500/15 focus:border-rose-500' : 'border-[#d5ded8]'
             } ${className}`}
             {...props}
           />
@@ -41,14 +41,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             <button
               type="button"
               onClick={() => setShowPassword(p => !p)}
-              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-surface-400 hover:text-surface-600 transition-colors p-1"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-[#788a7e] hover:text-[#143e2b] transition-colors p-1 cursor-pointer"
               aria-label={showPassword ? 'Hide password' : 'Show password'}
             >
               {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
             </button>
           )}
         </div>
-        {error && <p className="mt-1.5 text-xs text-red-500 font-medium">{error}</p>}
+        {error && <p className="mt-1.5 text-xs text-rose-500 font-semibold">{error}</p>}
       </div>
     );
   }
@@ -56,3 +56,4 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
 Input.displayName = 'Input';
 export default Input;
+
