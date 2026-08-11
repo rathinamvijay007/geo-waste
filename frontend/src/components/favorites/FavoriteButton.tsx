@@ -33,8 +33,8 @@ export default function FavoriteButton({ centerId, size = 'md', className = '' }
       onClick={handleClick}
       className={`${btnSize} rounded-full transition-all duration-200 ${
         isFav
-          ? 'text-red-500 bg-red-50 hover:bg-red-100'
-          : 'text-surface-400 bg-surface-100 hover:bg-surface-200 hover:text-surface-600'
+          ? 'text-rose-400 bg-rose-500/10 hover:bg-rose-500/20'
+          : 'text-[#edf7ee]/40 bg-white/5 hover:bg-[#4ade80]/10 hover:text-[#4ade80]'
       } ${className}`}
       aria-label={isFav ? 'Remove from favorites' : 'Add to favorites'}
     >

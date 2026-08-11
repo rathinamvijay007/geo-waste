@@ -1,10 +1,25 @@
 import { useState, useEffect } from 'react';
 import {
-  TreePine, Droplets, Wind, Recycle,
-  Award, Calculator
+  TreePine,
+  Droplets,
+  Wind,
+  Recycle,
+  Award,
+  Calculator,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, PieChart, Pie, Cell } from 'recharts';
+import {
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+  PieChart,
+  Pie,
+  Cell,
+} from 'recharts';
 import { ecoImpactApi } from '../api/ecoImpactApi';
 import type { EcoImpact } from '../types';
 import LoadingSpinner from '../components/common/LoadingSpinner';
@@ -16,7 +31,7 @@ const monthlyTrends = [
   { month: 'Apr', plastic: 2.1, ewaste: 0.5, batteries: 1 },
 ];
 
-const COLORS = ['#2563eb', '#22c55e', '#f59e0b', '#8b5cf6'];
+const COLORS = ['#4ade80', '#38bdf8', '#fbbf24', '#c084fc'];
 
 export default function ImpactPage() {
   const [impact, setImpact] = useState<EcoImpact | null>(null);
@@ -37,27 +52,43 @@ export default function ImpactPage() {
     async function runCalc() {
       try {
         const [pRes, eRes, bRes] = await Promise.all([
-          calcPlastic > 0 ? ecoImpactApi.calculateImpactSingle('Plastic', calcPlastic) : Promise.resolve({ co2_saved_kg: 0 }),
-          calcEwaste > 0 ? ecoImpactApi.calculateImpactSingle('E-Waste', calcEwaste) : Promise.resolve({ co2_saved_kg: 0 }),
-          calcBatteries > 0 ? ecoImpactApi.calculateImpactSingle('Battery', calcBatteries) : Promise.resolve({ co2_saved_kg: 0 }),
+          calcPlastic > 0
+            ? ecoImpactApi.calculateImpactSingle('Plastic', calcPlastic)
+            : Promise.resolve({ co2_saved_kg: 0 }),
+          calcEwaste > 0
+            ? ecoImpactApi.calculateImpactSingle('E-Waste', calcEwaste)
+            : Promise.resolve({ co2_saved_kg: 0 }),
+          calcBatteries > 0
+            ? ecoImpactApi.calculateImpactSingle('Battery', calcBatteries)
+            : Promise.resolve({ co2_saved_kg: 0 }),
         ]);
         if (active) {
-          const total = pRes.co2_saved_kg + eRes.co2_saved_kg + bRes.co2_saved_kg;
+          const total =
+            pRes.co2_saved_kg + eRes.co2_saved_kg + bRes.co2_saved_kg;
           setCalculatedCo2(parseFloat(total.toFixed(1)));
         }
       } catch {
         if (active) {
-          const co2 = (calcPlastic * 1.5) + (calcEwaste * 2.2) + (calcBatteries * 0.3);
+          const co2 = calcPlastic * 1.5 + calcEwaste * 2.2 + calcBatteries * 0.3;
           setCalculatedCo2(parseFloat(co2.toFixed(1)));
         }
       }
     }
     runCalc();
-    return () => { active = false; };
+    return () => {
+      active = false;
+    };
   }, [calcPlastic, calcEwaste, calcBatteries]);
 
   if (loading || !impact) {
-    return <div className="pt-28"><LoadingSpinner text="Calculating environmental metrics..." size="lg" /></div>;
+    return (
+      <div className="pt-36 min-h-screen">
+        <LoadingSpinner
+          text="Calculating environmental metrics..."
+          size="lg"
+        />
+      </div>
+    );
   }
 
   const pieData = [
@@ -67,198 +98,295 @@ export default function ImpactPage() {
   ];
 
   return (
-    <div className="py-24 sm:py-32 lg:py-44 min-h-screen bg-ambient-light">
-      <div className="max-w-8xl mx-auto px-6 sm:px-10 lg:px-16 space-y-16 lg:space-y-24">
-        {/* Header */}
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="text-center max-w-3xl mx-auto space-y-5">
-          <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-[#ebf5ed] border border-[#22c55e]/30 text-[#143e2b] text-xs font-bold uppercase tracking-widest shadow-2xs">
-            <Award className="w-4 h-4 text-[#22c55e]" />
+    <div className="pt-32 sm:pt-40 pb-40 min-h-screen relative overflow-hidden">
+      {/* Background Ambient Glows & Grid */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1440px] h-[600px] bg-gradient-to-b from-[#4ade80]/12 via-[#16a34a]/5 to-transparent blur-3xl pointer-events-none -z-10" />
+      <div className="absolute inset-0 bg-grid-pattern-dark opacity-20 pointer-events-none -z-10" />
+
+      <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14 space-y-24 sm:space-y-32">
+        {/* ─── 1. HERO HEADER ────────────────────────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-4xl mx-auto space-y-8"
+        >
+          <div className="eyebrow mx-auto shadow-md py-2 px-5 text-xs">
+            <Award className="w-4 h-4 text-[#4ade80]" />
             <span>COMMUNITY ENVIRONMENTAL FOOTPRINT</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-display text-[#1b251f] tracking-tight">
-            Environmental Impact & Eco Score
+
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold font-display tracking-tight text-[#edf7ee] leading-[1.12]">
+            Environmental Impact & <br className="hidden sm:inline" />
+            <span className="gradient-text">Eco Metrics</span>
           </h1>
-          <p className="text-lg text-[#556358] leading-relaxed font-medium">
-            Detailed metrics, CO₂ offset statistics, and interactive waste impact calculator.
+
+          <p className="text-lg sm:text-xl text-[#edf7ee]/80 leading-relaxed max-w-2xl mx-auto font-normal">
+            Real-time environmental statistics, CO₂ reduction metrics, and an interactive waste savings calculator.
           </p>
         </motion.div>
 
-        {/* Top Key Metric Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
-            className="glass-card rounded-3xl p-8 lg:p-10 border border-white/80 shadow-lg space-y-4"
-          >
-            <div className="w-14 h-14 rounded-2xl bg-[#ebf5ed] border border-[#22c55e]/30 flex items-center justify-center text-[#143e2b]">
-              <TreePine className="w-7 h-7 text-[#22c55e]" />
-            </div>
-            <div>
-              <p className="text-4xl sm:text-5xl font-black font-display text-[#1b251f] tracking-tight">{impact.wasteDiverted} kg</p>
-              <p className="text-xs font-bold uppercase tracking-widest text-[#556358] mt-2">Total Waste Diverted</p>
-            </div>
-          </motion.div>
-
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-            className="glass-card rounded-3xl p-8 lg:p-10 border border-white/80 shadow-lg space-y-4"
-          >
-            <div className="w-14 h-14 rounded-2xl bg-[#ebf5ed] border border-[#22c55e]/30 flex items-center justify-center text-[#143e2b]">
-              <Wind className="w-7 h-7 text-[#22c55e]" />
-            </div>
-            <div>
-              <p className="text-4xl sm:text-5xl font-black font-display text-[#1b251f] tracking-tight">{impact.co2Avoided} kg</p>
-              <p className="text-xs font-bold uppercase tracking-widest text-[#556358] mt-2">CO₂ Emissions Avoided</p>
-            </div>
-          </motion.div>
-
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
-            className="glass-card rounded-3xl p-8 lg:p-10 border border-white/80 shadow-lg space-y-4"
-          >
-            <div className="w-14 h-14 rounded-2xl bg-[#ebf5ed] border border-[#22c55e]/30 flex items-center justify-center text-[#143e2b]">
-              <Droplets className="w-7 h-7 text-blue-600" />
-            </div>
-            <div>
-              <p className="text-4xl sm:text-5xl font-black font-display text-[#1b251f] tracking-tight">{Math.round(impact.co2Avoided * 14.5)}</p>
-              <p className="text-xs font-bold uppercase tracking-widest text-[#556358] mt-2">Gallons Water Saved</p>
-            </div>
-          </motion.div>
-
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-            className="glass-card rounded-3xl p-8 lg:p-10 border border-white/80 shadow-lg space-y-4"
-          >
-            <div className="w-14 h-14 rounded-2xl bg-[#ebf5ed] border border-[#22c55e]/30 flex items-center justify-center text-[#143e2b]">
-              <Recycle className="w-7 h-7 text-emerald-700" />
-            </div>
-            <div>
-              <p className="text-4xl sm:text-5xl font-black font-display text-[#1b251f] tracking-tight">{Math.round(impact.co2Avoided * 0.08)}</p>
-              <p className="text-xs font-bold uppercase tracking-widest text-[#556358] mt-2">Trees Preserved</p>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Visual Charts Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
-          {/* Monthly Trend Bar Chart */}
-          <div className="lg:col-span-7 glass-panel rounded-3xl border border-white/80 p-9 sm:p-12 shadow-xl space-y-8">
-            <div>
-              <span className="text-xs font-extrabold uppercase tracking-widest text-[#143e2b] block mb-1">RECYCLING HISTORY</span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold font-display text-[#1b251f]">Monthly Drop-off Volume (kg)</h2>
-            </div>
-
-            <div className="h-72 w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={monthlyTrends}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#eaeae4" />
-                  <XAxis dataKey="month" stroke="#788a7e" fontSize={12} tickLine={false} axisLine={false} />
-                  <YAxis stroke="#788a7e" fontSize={12} tickLine={false} axisLine={false} />
-                  <Tooltip cursor={{ fill: '#ebf5ed' }} />
-                  <Bar dataKey="plastic" name="Plastic" fill="#2563eb" radius={[6, 6, 0, 0]} />
-                  <Bar dataKey="ewaste" name="E-Waste" fill="#22c55e" radius={[6, 6, 0, 0]} />
-                  <Bar dataKey="batteries" name="Batteries" fill="#f59e0b" radius={[6, 6, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
+        {/* ─── 2. KEY METRICS SHOWCASE GRID ──────────────────────────── */}
+        <div className="space-y-6">
+          <div className="border-b border-white/10 pb-4">
+            <h2 className="text-sm font-mono font-bold uppercase tracking-widest text-[#4ade80]">
+              Key Sustainability Achievements
+            </h2>
           </div>
 
-          {/* Waste Type Distribution Pie Chart */}
-          <div className="lg:col-span-5 glass-panel rounded-3xl border border-white/80 p-9 sm:p-12 shadow-xl space-y-8 flex flex-col justify-between">
-            <div>
-              <span className="text-xs font-extrabold uppercase tracking-widest text-[#143e2b] block mb-1">MATERIAL BREAKDOWN</span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold font-display text-[#1b251f]">Category Share</h2>
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.05 }}
+              className="liquid-glass-card p-8 sm:p-10 space-y-7 hover:border-[#4ade80]/60 transition-all"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-[#4ade80]/15 border border-[#4ade80]/30 flex items-center justify-center text-[#4ade80]">
+                <TreePine className="w-7 h-7 text-[#4ade80]" />
+              </div>
+              <div className="space-y-3">
+                <p className="text-4xl sm:text-5xl font-extrabold font-display text-[#edf7ee] tracking-tight">
+                  {impact.wasteDiverted} <span className="text-lg font-bold text-[#4ade80]">kg</span>
+                </p>
+                <p className="text-xs font-mono font-bold uppercase tracking-widest text-[#edf7ee]/60">
+                  Total Waste Diverted
+                </p>
+              </div>
+            </motion.div>
 
-            <div className="h-60 w-full flex items-center justify-center">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={pieData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={55}
-                    outerRadius={85}
-                    paddingAngle={6}
-                    dataKey="value"
-                  >
-                    {pieData.map((_, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="liquid-glass-card p-8 sm:p-10 space-y-7 hover:border-[#4ade80]/60 transition-all"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-[#4ade80]/15 border border-[#4ade80]/30 flex items-center justify-center text-[#4ade80]">
+                <Wind className="w-7 h-7 text-[#4ade80]" />
+              </div>
+              <div className="space-y-3">
+                <p className="text-4xl sm:text-5xl font-extrabold font-display text-[#edf7ee] tracking-tight">
+                  {impact.co2Avoided} <span className="text-lg font-bold text-[#4ade80]">kg</span>
+                </p>
+                <p className="text-xs font-mono font-bold uppercase tracking-widest text-[#edf7ee]/60">
+                  CO₂ Emissions Avoided
+                </p>
+              </div>
+            </motion.div>
 
-            <div className="space-y-3 pt-4 border-t border-[#eaeae4]">
-              {pieData.map((item, idx) => (
-                <div key={item.name} className="flex items-center justify-between text-xs font-bold text-[#4a554e]">
-                  <span className="flex items-center gap-2.5">
-                    <span className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[idx % COLORS.length] }} />
-                    {item.name}
-                  </span>
-                  <span className="font-extrabold text-[#1b251f]">{item.value.toFixed(1)} kg</span>
-                </div>
-              ))}
-            </div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 }}
+              className="liquid-glass-card p-8 sm:p-10 space-y-7 hover:border-[#4ade80]/60 transition-all"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-sky-500/15 border border-sky-500/30 flex items-center justify-center text-sky-400">
+                <Droplets className="w-7 h-7 text-sky-400" />
+              </div>
+              <div className="space-y-3">
+                <p className="text-4xl sm:text-5xl font-extrabold font-display text-[#edf7ee] tracking-tight">
+                  {Math.round(impact.co2Avoided * 14.5)} <span className="text-lg font-bold text-sky-400">gal</span>
+                </p>
+                <p className="text-xs font-mono font-bold uppercase tracking-widest text-[#edf7ee]/60">
+                  Gallons Water Preserved
+                </p>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="liquid-glass-card p-8 sm:p-10 space-y-7 hover:border-[#4ade80]/60 transition-all"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                <Recycle className="w-7 h-7 text-emerald-400" />
+              </div>
+              <div className="space-y-3">
+                <p className="text-4xl sm:text-5xl font-extrabold font-display text-[#edf7ee] tracking-tight">
+                  {Math.round(impact.co2Avoided * 0.08)} <span className="text-lg font-bold text-emerald-400">trees</span>
+                </p>
+                <p className="text-xs font-mono font-bold uppercase tracking-widest text-[#edf7ee]/60">
+                  Tree Offset Equivalent
+                </p>
+              </div>
+            </motion.div>
           </div>
         </div>
 
-        {/* Interactive Impact Calculator */}
-        <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-          className="glass-panel rounded-3xl border border-white/80 p-10 sm:p-14 lg:p-16 shadow-2xl space-y-10"
-        >
-          <div className="max-w-2xl space-y-3">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-[#143e2b] flex items-center gap-2">
-              <Calculator className="w-4 h-4 text-[#22c55e]" /> INTERACTIVE SIMULATOR
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold font-display text-[#1b251f]">Calculate Your CO₂ Savings</h2>
-            <p className="text-base text-[#556358] font-medium">Input your estimated recycling quantities to project your environmental contribution.</p>
+        {/* ─── 3. VISUAL CHARTS GRID ─────────────────────────────────── */}
+        <div className="space-y-6">
+          <div className="border-b border-white/10 pb-4">
+            <h2 className="text-sm font-mono font-bold uppercase tracking-widest text-[#4ade80]">
+              Analytics & Material Share
+            </h2>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            {/* Input Controls */}
-            <div className="lg:col-span-7 space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+            {/* Monthly Trend Bar Chart */}
+            <div className="lg:col-span-7 liquid-glass-card p-8 sm:p-12 space-y-8">
               <div>
-                <label className="block text-xs font-extrabold uppercase tracking-widest text-[#143e2b] mb-2">Plastic Materials (kg)</label>
+                <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#4ade80] block mb-2">
+                  RECYCLING HISTORY
+                </span>
+                <h3 className="text-3xl font-extrabold font-display text-[#edf7ee]">
+                  Monthly Drop-off Volume (kg)
+                </h3>
+              </div>
+
+              <div className="h-80 w-full pt-4">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={monthlyTrends}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
+                    <XAxis dataKey="month" stroke="#edf7ee" opacity={0.7} fontSize={13} tickLine={false} axisLine={false} />
+                    <YAxis stroke="#edf7ee" opacity={0.7} fontSize={13} tickLine={false} axisLine={false} />
+                    <Tooltip contentStyle={{ backgroundColor: '#0d1611', borderColor: 'rgba(74,222,128,0.3)', borderRadius: '16px', color: '#edf7ee', padding: '12px 16px' }} />
+                    <Bar dataKey="plastic" name="Plastic" fill="#38bdf8" radius={[8, 8, 0, 0]} />
+                    <Bar dataKey="ewaste" name="E-Waste" fill="#4ade80" radius={[8, 8, 0, 0]} />
+                    <Bar dataKey="batteries" name="Batteries" fill="#fbbf24" radius={[8, 8, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            {/* Waste Type Distribution Pie Chart */}
+            <div className="lg:col-span-5 liquid-glass-card p-8 sm:p-12 space-y-8 flex flex-col justify-between">
+              <div>
+                <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#4ade80] block mb-2">
+                  MATERIAL BREAKDOWN
+                </span>
+                <h3 className="text-3xl font-extrabold font-display text-[#edf7ee]">
+                  Category Share
+                </h3>
+              </div>
+
+              <div className="h-64 w-full flex items-center justify-center">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={pieData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={95}
+                      paddingAngle={8}
+                      dataKey="value"
+                    >
+                      {pieData.map((_, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
+                      ))}
+                    </Pie>
+                    <Tooltip contentStyle={{ backgroundColor: '#0d1611', borderColor: 'rgba(74,222,128,0.3)', borderRadius: '16px', color: '#edf7ee', padding: '12px 16px' }} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+
+              <div className="space-y-4 pt-6 border-t border-white/10">
+                {pieData.map((item, idx) => (
+                  <div
+                    key={item.name}
+                    className="flex items-center justify-between text-sm font-semibold text-[#edf7ee]/80"
+                  >
+                    <span className="flex items-center gap-3">
+                      <span
+                        className="w-3.5 h-3.5 rounded-full"
+                        style={{ backgroundColor: COLORS[idx % COLORS.length] }}
+                      />
+                      {item.name}
+                    </span>
+                    <span className="font-extrabold text-[#edf7ee]">
+                      {item.value.toFixed(1)} kg
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ─── 4. INTERACTIVE IMPACT CALCULATOR ───────────────────────── */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="liquid-glass-card p-8 sm:p-14 lg:p-16 space-y-12"
+        >
+          <div className="max-w-3xl space-y-4">
+            <span className="eyebrow">
+              <Calculator className="w-4 h-4 text-[#4ade80]" /> INTERACTIVE SIMULATOR
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-extrabold font-display text-[#edf7ee]">
+              Calculate Your CO₂ Savings
+            </h2>
+            <p className="text-base sm:text-lg text-[#edf7ee]/75 font-normal leading-relaxed">
+              Adjust estimated recycling quantities to calculate your personal or organizational environmental contribution.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            {/* Input Controls */}
+            <div className="lg:col-span-7 space-y-8">
+              <div className="space-y-2">
+                <label className="block text-xs font-mono font-bold uppercase tracking-widest text-[#4ade80]">
+                  Plastic Materials (kg)
+                </label>
                 <input
                   type="number"
                   min="0"
                   value={calcPlastic}
-                  onChange={e => setCalcPlastic(Number(e.target.value))}
-                  className="w-full px-5 py-4 rounded-2xl border border-[#d5ded8] bg-white text-base font-bold text-[#1b251f] focus:ring-4 focus:ring-[#22c55e]/15 focus:border-[#22c55e] outline-none"
+                  onChange={(e) => setCalcPlastic(Number(e.target.value))}
+                  className="w-full px-6 py-4 rounded-2xl border border-white/15 bg-white/5 text-lg font-bold text-[#edf7ee] focus:ring-2 focus:ring-[#4ade80]/30 focus:border-[#4ade80] outline-none transition-all"
                 />
               </div>
 
-              <div>
-                <label className="block text-xs font-extrabold uppercase tracking-widest text-[#143e2b] mb-2">E-Waste (kg)</label>
+              <div className="space-y-2">
+                <label className="block text-xs font-mono font-bold uppercase tracking-widest text-[#4ade80]">
+                  E-Waste (kg)
+                </label>
                 <input
                   type="number"
                   min="0"
                   value={calcEwaste}
-                  onChange={e => setCalcEwaste(Number(e.target.value))}
-                  className="w-full px-5 py-4 rounded-2xl border border-[#d5ded8] bg-white text-base font-bold text-[#1b251f] focus:ring-4 focus:ring-[#22c55e]/15 focus:border-[#22c55e] outline-none"
+                  onChange={(e) => setCalcEwaste(Number(e.target.value))}
+                  className="w-full px-6 py-4 rounded-2xl border border-white/15 bg-white/5 text-lg font-bold text-[#edf7ee] focus:ring-2 focus:ring-[#4ade80]/30 focus:border-[#4ade80] outline-none transition-all"
                 />
               </div>
 
-              <div>
-                <label className="block text-xs font-extrabold uppercase tracking-widest text-[#143e2b] mb-2">Batteries (units)</label>
+              <div className="space-y-2">
+                <label className="block text-xs font-mono font-bold uppercase tracking-widest text-[#4ade80]">
+                  Batteries (units)
+                </label>
                 <input
                   type="number"
                   min="0"
                   value={calcBatteries}
-                  onChange={e => setCalcBatteries(Number(e.target.value))}
-                  className="w-full px-5 py-4 rounded-2xl border border-[#d5ded8] bg-white text-base font-bold text-[#1b251f] focus:ring-4 focus:ring-[#22c55e]/15 focus:border-[#22c55e] outline-none"
+                  onChange={(e) => setCalcBatteries(Number(e.target.value))}
+                  className="w-full px-6 py-4 rounded-2xl border border-white/15 bg-white/5 text-lg font-bold text-[#edf7ee] focus:ring-2 focus:ring-[#4ade80]/30 focus:border-[#4ade80] outline-none transition-all"
                 />
               </div>
             </div>
 
             {/* Projected Result Box */}
             <div className="lg:col-span-5">
-              <div className="bg-ambient-dark rounded-3xl p-10 text-white text-center space-y-6 shadow-2xl border border-white/10 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-[#22c55e]/15 rounded-full blur-3xl pointer-events-none" />
-                <div className="relative z-10 space-y-2">
-                  <span className="text-xs font-extrabold uppercase tracking-widest text-[#4ade80]">ESTIMATED CO₂ SAVED</span>
-                  <p className="text-6xl sm:text-7xl font-black font-display text-[#4ade80] tracking-tight">{calculatedCo2} <span className="text-2xl font-bold text-white">kg</span></p>
+              <div className="bg-[#052e16] rounded-3xl p-10 sm:p-12 text-center space-y-6 shadow-2xl border border-[#4ade80]/40 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-72 h-72 bg-[#4ade80]/20 rounded-full blur-3xl pointer-events-none" />
+                <div className="relative z-10 space-y-3">
+                  <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#4ade80]">
+                    ESTIMATED CO₂ SAVED
+                  </span>
+                  <p className="text-6xl sm:text-7xl font-black font-display text-[#4ade80] tracking-tight">
+                    {calculatedCo2}{' '}
+                    <span className="text-2xl font-bold text-[#edf7ee]">kg</span>
+                  </p>
                 </div>
-                <p className="text-xs text-[#c3ded0] leading-relaxed font-medium relative z-10">
-                  Equivalent to driving <span className="font-extrabold text-white">{(calculatedCo2 * 4.2).toFixed(0)} km</span> less in a standard petrol vehicle.
+                <p className="text-sm text-[#edf7ee]/80 leading-relaxed font-normal relative z-10">
+                  Equivalent to driving{' '}
+                  <span className="font-extrabold text-[#4ade80]">
+                    {(calculatedCo2 * 4.2).toFixed(0)} km
+                  </span>{' '}
+                  less in a standard vehicle.
                 </p>
               </div>
             </div>

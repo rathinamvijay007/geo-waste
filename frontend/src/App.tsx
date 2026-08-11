@@ -40,49 +40,55 @@ function PageLoader() {
   );
 }
 
+function MainAppShell() {
+  return (
+    <div className="min-h-screen flex flex-col transition-colors duration-300 bg-[#06170d] text-[#edf7ee]">
+      <Navbar />
+      <main className="flex-1">
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/explore" element={<ExplorePage />} />
+            <Route path="/waste-guide" element={<WasteGuidePage />} />
+            <Route path="/waste-guide/:category" element={<WasteGuidePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/impact" element={<ImpactPage />} />
+
+            {/* Dedicated User Feature Routes */}
+            <Route path="/center/:id" element={<CenterDetailsPage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/favorites" element={<FavoritesPage />} />
+            <Route path="/history" element={<HistoryPage />} />
+            <Route path="/reviews" element={<UserReviewsPage />} />
+            <Route path="/reports" element={<UserReportsPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+
+            {/* Dedicated Admin Portal Routes */}
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/centers" element={<AdminCenters />} />
+            <Route path="/admin/users" element={<AdminUsers />} />
+            <Route path="/admin/reviews" element={<AdminReviews />} />
+            <Route path="/admin/reports" element={<AdminReports />} />
+            <Route path="/admin/analytics" element={<AdminAnalytics />} />
+          </Routes>
+        </Suspense>
+      </main>
+      <Footer />
+      <MobileNav />
+      <ToastContainer />
+    </div>
+  );
+}
+
 export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
         <LocationProvider>
           <FavoritesProvider>
-            <div className="min-h-screen flex flex-col">
-              <Navbar />
-              <main className="flex-1">
-                <Suspense fallback={<PageLoader />}>
-                  <Routes>
-                    {/* Public Routes */}
-                    <Route path="/" element={<LandingPage />} />
-                    <Route path="/explore" element={<ExplorePage />} />
-                    <Route path="/waste-guide" element={<WasteGuidePage />} />
-                    <Route path="/waste-guide/:category" element={<WasteGuidePage />} />
-                    <Route path="/login" element={<LoginPage />} />
-                    <Route path="/register" element={<RegisterPage />} />
-                    <Route path="/impact" element={<ImpactPage />} />
-
-                    {/* Dedicated User Feature Routes */}
-                    <Route path="/center/:id" element={<CenterDetailsPage />} />
-                    <Route path="/dashboard" element={<DashboardPage />} />
-                    <Route path="/favorites" element={<FavoritesPage />} />
-                    <Route path="/history" element={<HistoryPage />} />
-                    <Route path="/reviews" element={<UserReviewsPage />} />
-                    <Route path="/reports" element={<UserReportsPage />} />
-                    <Route path="/profile" element={<ProfilePage />} />
-
-                    {/* Dedicated Admin Portal Routes */}
-                    <Route path="/admin" element={<AdminDashboard />} />
-                    <Route path="/admin/centers" element={<AdminCenters />} />
-                    <Route path="/admin/users" element={<AdminUsers />} />
-                    <Route path="/admin/reviews" element={<AdminReviews />} />
-                    <Route path="/admin/reports" element={<AdminReports />} />
-                    <Route path="/admin/analytics" element={<AdminAnalytics />} />
-                  </Routes>
-                </Suspense>
-              </main>
-              <Footer />
-              <MobileNav />
-              <ToastContainer />
-            </div>
+            <MainAppShell />
           </FavoritesProvider>
         </LocationProvider>
       </AuthProvider>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Clock, Search, Trash2, TrashIcon, Compass } from 'lucide-react';
+import { Clock, Search, Trash2, TrashIcon, Compass, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { historyApi } from '../api/historyApi';
 import type { SearchHistoryItem } from '../types';
@@ -39,17 +39,22 @@ export default function HistoryPage() {
   };
 
   return (
-    <div className="py-24 sm:py-32 lg:py-40 min-h-screen bg-ambient-light">
-      <div className="max-w-6xl lg:max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-16 pb-10 border-b border-[#eaeae4]">
+    <div className="pt-32 sm:pt-40 pb-40 min-h-screen">
+      <div className="max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-14">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-16 lg:mb-20 pb-10 border-b border-white/10">
           <div className="flex items-center gap-6">
-            <div className="w-16 h-16 rounded-3xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center shrink-0 shadow-md">
-              <Clock className="w-8 h-8 text-blue-700" />
+            <div className="w-16 h-16 rounded-3xl bg-[#4ade80]/10 border border-[#4ade80]/30 flex items-center justify-center shrink-0 shadow-lg">
+              <Clock className="w-8 h-8 text-[#4ade80]" />
             </div>
             <div>
-              <span className="text-xs font-extrabold uppercase tracking-widest text-[#143e2b] block mb-1">SEARCH ACTIVITY</span>
-              <h1 className="text-4xl sm:text-5xl font-extrabold font-display text-[#1b251f] tracking-tight">Search History</h1>
-              <p className="text-base font-medium text-[#556358] mt-1">{history.length} past searches saved</p>
+              <div className="eyebrow mb-2">
+                <Sparkles className="w-3.5 h-3.5 text-[#4ade80]" />
+                <span>SEARCH ACTIVITY</span>
+              </div>
+              <h1 className="text-4xl sm:text-5xl font-extrabold font-display tracking-tight text-[#edf7ee]">
+                Search <span className="gradient-text">History</span>
+              </h1>
+              <p className="text-sm font-medium text-[#edf7ee]/60 mt-1">{history.length} past searches saved</p>
             </div>
           </div>
           {history.length > 0 && (
@@ -60,14 +65,14 @@ export default function HistoryPage() {
         </div>
 
         {loading ? (
-          <div className="space-y-6">
+          <div className="space-y-5">
             {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="animate-pulse bg-white/80 rounded-3xl p-8 border border-[#eaeae4]">
+              <div key={i} className="animate-pulse bg-[#0d1611]/80 rounded-3xl p-7 sm:p-8 border border-white/10">
                 <div className="flex gap-5">
-                  <div className="w-14 h-14 rounded-2xl bg-stone-200" />
+                  <div className="w-14 h-14 rounded-2xl bg-white/5" />
                   <div className="flex-1 space-y-3">
-                    <div className="h-6 w-1/3 bg-stone-200 rounded-lg" />
-                    <div className="h-4 w-1/4 bg-stone-200 rounded-lg" />
+                    <div className="h-6 w-1/3 bg-white/10 rounded-lg" />
+                    <div className="h-4 w-1/4 bg-white/5 rounded-lg" />
                   </div>
                 </div>
               </div>
@@ -75,32 +80,32 @@ export default function HistoryPage() {
           </div>
         ) : history.length === 0 ? (
           <EmptyState
-            icon={<Search className="w-12 h-12 text-blue-600" />}
+            icon={<Search className="w-12 h-12 text-[#4ade80]" />}
             title="No search history"
             description="Your recent search queries will appear here so you can quickly revisit them anytime."
             actionLabel="Start Searching"
             onAction={() => navigate('/explore')}
           />
         ) : (
-          <div className="space-y-6">
+          <div className="space-y-5">
             {history.map((item, i) => (
               <motion.div
                 key={item.id}
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.04 }}
-                className="glass-card rounded-3xl border border-white/80 p-7 sm:p-8 flex items-center justify-between gap-8 group hover:border-[#22c55e]/40 shadow-lg transition-all duration-300"
+                className="bg-[#0d1611]/80 backdrop-blur-xl rounded-3xl border border-white/10 p-7 sm:p-8 flex items-center justify-between gap-6 group hover:border-[#4ade80]/40 shadow-lg transition-all duration-300"
               >
                 <div className="flex items-center gap-5 flex-1 min-w-0">
-                  <div className="w-14 h-14 rounded-2xl bg-[#ebf5ed] flex items-center justify-center text-[#143e2b] shrink-0 font-bold">
+                  <div className="w-14 h-14 rounded-2xl bg-[#4ade80]/10 border border-[#4ade80]/20 flex items-center justify-center text-[#4ade80] shrink-0 font-bold">
                     <Compass className="w-7 h-7" />
                   </div>
-                  <div className="flex-1 min-w-0 space-y-1.5">
-                    <p className="text-lg font-bold text-[#1b251f] truncate">{item.query}</p>
-                    <div className="flex flex-wrap items-center gap-3.5 text-xs font-semibold text-[#556358]">
-                      <span className="px-3.5 py-1 rounded-full bg-[#ebf5ed] text-[#143e2b] font-extrabold border border-[#22c55e]/30">{item.wasteType}</span>
+                  <div className="flex-1 min-w-0 space-y-2">
+                    <p className="text-base sm:text-lg font-bold text-[#edf7ee] truncate">{item.query}</p>
+                    <div className="flex flex-wrap items-center gap-3 text-xs font-semibold text-[#edf7ee]/60">
+                      <span className="px-3 py-1 rounded-full bg-[#4ade80]/15 text-[#4ade80] font-mono font-bold border border-[#4ade80]/30">{item.wasteType}</span>
                       <span>{item.location}</span>
-                      <span>•</span>
+                      <span className="text-white/20">•</span>
                       <span>{formatDate(item.date)}</span>
                     </div>
                   </div>
@@ -108,17 +113,17 @@ export default function HistoryPage() {
                 <div className="flex items-center gap-3 shrink-0">
                   <button
                     onClick={() => navigate(`/explore?waste=${item.wasteType}`)}
-                    className="p-3.5 rounded-2xl bg-[#ebf5ed] hover:bg-[#143e2b] text-[#143e2b] hover:text-white transition-all cursor-pointer shadow-2xs"
+                    className="p-4 rounded-2xl bg-[#4ade80]/10 hover:bg-[#22c55e] border border-[#4ade80]/25 text-[#4ade80] hover:text-[#052e16] transition-all cursor-pointer shadow-md"
                     aria-label="Search again"
                   >
-                    <Search className="w-5 h-5" />
+                    <Search className="w-4.5 h-4.5" />
                   </button>
                   <button
                     onClick={() => handleDelete(item.id)}
-                    className="p-3.5 rounded-2xl bg-rose-50 hover:bg-rose-600 text-rose-600 hover:text-white transition-all cursor-pointer shadow-2xs"
+                    className="p-4 rounded-2xl bg-rose-500/10 hover:bg-rose-600 border border-rose-500/20 text-rose-400 hover:text-white transition-all cursor-pointer shadow-md"
                     aria-label="Delete search"
                   >
-                    <Trash2 className="w-5 h-5" />
+                    <Trash2 className="w-4.5 h-4.5" />
                   </button>
                 </div>
               </motion.div>
@@ -129,5 +134,3 @@ export default function HistoryPage() {
     </div>
   );
 }
-
-

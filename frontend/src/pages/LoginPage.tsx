@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Leaf, Mail, Lock, ArrowRight } from 'lucide-react';
+import { Leaf, Mail, Lock, ArrowRight, ShieldCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/common/Button';
 import Input from '../components/common/Input';
+import ElectricBorder from '../components/common/ElectricBorder';
 
 export default function LoginPage() {
   const { login, isLoading, error, clearError } = useAuth();
@@ -27,91 +28,134 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center pt-24 pb-20 px-4 bg-ambient-light relative overflow-hidden">
-      {/* Ambient background glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#22c55e]/10 rounded-full blur-3xl pointer-events-none" />
+    <div
+      className="min-h-screen flex flex-col items-center justify-center pt-28 sm:pt-36 pb-36 px-6 relative overflow-hidden font-sans"
+      style={{ minHeight: '100vh' }}
+    >
+      {/* Background Ambient Glows */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[#4ade80]/12 rounded-full blur-[140px] pointer-events-none -z-10" />
 
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-md relative z-10"
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className="w-full max-w-lg relative z-10 flex flex-col gap-8"
+        style={{ maxWidth: '32rem', width: '100%' }}
       >
-        <div className="text-center mb-8">
-          <Link to="/" className="inline-flex items-center gap-2.5 mb-6 group">
-            <div className="w-12 h-12 rounded-2xl bg-[#143e2b] flex items-center justify-center shadow-lg shadow-[#143e2b]/30 group-hover:scale-105 transition-transform">
-              <Leaf className="w-6 h-6 text-[#4ade80]" />
+        {/* Header & Logo Section */}
+        <div className="text-center flex flex-col items-center gap-3">
+          <Link to="/" className="inline-flex items-center gap-3 group mb-2">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#22c55e] to-[#16a34a] flex items-center justify-center shadow-lg shadow-[#22c55e]/25 group-hover:scale-105 transition-transform">
+              <Leaf className="w-7 h-7 text-[#052e16]" />
             </div>
-            <span className="text-3xl font-extrabold font-display text-[#143e2b] tracking-tight">EcoDrop</span>
+            <span className="text-3xl font-extrabold font-display text-[#edf7ee] tracking-tight">
+              EcoDrop
+            </span>
           </Link>
-          <h1 className="text-3xl font-extrabold font-display text-[#1b251f] tracking-tight">Welcome back</h1>
-          <p className="text-sm text-[#556358] mt-2 font-medium">Sign in to your EcoDrop account to continue</p>
+
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-display text-[#edf7ee] tracking-tight leading-tight">
+            Welcome back
+          </h1>
+
+          <p className="text-sm sm:text-base text-[#edf7ee]/75 font-normal max-w-md mx-auto leading-relaxed">
+            Sign in to your EcoDrop account to manage recycling hubs, track CO₂ impact, and save favorite drop-offs.
+          </p>
         </div>
 
-        <div className="glass-panel rounded-3xl border border-white/80 p-8 sm:p-10 shadow-2xl">
+        {/* Card Form Wrapped in ElectricBorder */}
+        <ElectricBorder color="#4ade80" speed={1} chaos={0.12} borderRadius={24} className="w-full">
+          <div
+            className="liquid-glass-card p-8 sm:p-12 flex flex-col gap-6"
+            style={{
+              padding: '2.5rem',
+            }}
+          >
           {success && (
-            <div className="mb-6 p-4 rounded-2xl bg-[#ebf5ed] border border-[#22c55e]/40 text-xs font-bold text-[#143e2b]">
-              Sign in successful! Redirecting...
+            <div className="p-4 rounded-2xl bg-[#4ade80]/15 border border-[#4ade80]/30 text-xs font-mono font-bold text-[#4ade80] flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4 text-[#4ade80]" />
+              <span>Sign in successful! Redirecting to member dashboard...</span>
             </div>
           )}
+
           {error && (
-            <div className="mb-6 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-xs font-bold text-rose-600">
+            <div className="p-4 rounded-2xl bg-rose-500/15 border border-rose-500/30 text-xs font-mono font-bold text-rose-300">
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-6" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             <Input
               label="Email Address"
               type="email"
               placeholder="you@example.com"
               value={email}
-              onChange={e => setEmail(e.target.value)}
-              icon={<Mail className="w-4 h-4 text-[#143e2b]" />}
+              onChange={(e) => setEmail(e.target.value)}
+              icon={<Mail className="w-4.5 h-4.5 text-[#4ade80]" />}
               required
               autoComplete="email"
             />
+
             <Input
               label="Password"
               type="password"
               placeholder="Enter your password"
               value={password}
-              onChange={e => setPassword(e.target.value)}
-              icon={<Lock className="w-4 h-4 text-[#143e2b]" />}
+              onChange={(e) => setPassword(e.target.value)}
+              icon={<Lock className="w-4.5 h-4.5 text-[#4ade80]" />}
               required
               autoComplete="current-password"
             />
 
-            <div className="flex items-center justify-between pt-1">
+            <div className="flex items-center justify-between py-1" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <label className="flex items-center gap-2.5 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={rememberMe}
-                  onChange={e => setRememberMe(e.target.checked)}
-                  className="w-4 h-4 rounded border-[#d5ded8] text-[#143e2b] focus:ring-[#22c55e] cursor-pointer accent-[#143e2b]"
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="w-4 h-4 rounded border-white/20 text-[#4ade80] focus:ring-[#4ade80] cursor-pointer accent-[#22c55e]"
                 />
-                <span className="text-xs font-bold text-[#4a554e]">Remember me</span>
+                <span className="text-xs sm:text-sm font-semibold text-[#edf7ee]/80">
+                  Remember me
+                </span>
               </label>
-              <button type="button" className="text-xs font-bold text-[#143e2b] hover:underline cursor-pointer">
+
+              <button
+                type="button"
+                className="text-xs sm:text-sm font-bold text-[#4ade80] hover:underline cursor-pointer"
+              >
                 Forgot password?
               </button>
             </div>
 
-            <Button type="submit" isLoading={isLoading} className="w-full shadow-lg shadow-[#143e2b]/25" size="lg" rightIcon={<ArrowRight className="w-4 h-4" />}>
-              Sign In
+            <Button
+              type="submit"
+              isLoading={isLoading}
+              className="w-full py-4 rounded-2xl shadow-xl shadow-[#22c55e]/25 text-base font-extrabold"
+              size="lg"
+              rightIcon={<ArrowRight className="w-5 h-5" />}
+            >
+              Sign In to EcoDrop
             </Button>
           </form>
 
-          <div className="mt-7 p-4 rounded-2xl bg-white/70 border border-[#eaeae4]">
-            <p className="text-xs text-[#556358] text-center font-medium">
-              Demo Credentials: <span className="font-mono text-[#143e2b] font-bold">vijay@ecodrop.in</span> / <span className="font-mono text-[#143e2b] font-bold">password</span>
-            </p>
+          <div className="pt-4 border-t border-white/10 mt-2">
+            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-center space-y-1">
+              <p className="text-xs text-[#edf7ee]/60 uppercase tracking-widest font-mono font-bold">Demo Login Credentials</p>
+              <p className="text-sm font-mono font-bold text-[#4ade80]">
+                vijay@ecodrop.in <span className="text-[#edf7ee]/40 font-normal">/</span> password
+              </p>
+            </div>
           </div>
         </div>
+      </ElectricBorder>
 
-        <p className="text-center text-sm text-[#556358] mt-8 font-semibold">
+        {/* Footer Link */}
+        <p className="text-center text-sm sm:text-base text-[#edf7ee]/75 font-normal">
           Don't have an account yet?{' '}
-          <Link to="/register" className="text-[#143e2b] hover:underline font-extrabold">
+          <Link
+            to="/register"
+            className="text-[#4ade80] hover:underline font-bold"
+          >
             Create account
           </Link>
         </p>
@@ -119,4 +163,3 @@ export default function LoginPage() {
     </div>
   );
 }
-

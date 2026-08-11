@@ -16,10 +16,19 @@ const sizeStyles = {
   lg: 'max-w-2xl',
 };
 
-export default function Modal({ isOpen, onClose, title, children, size = 'md' }: ModalProps) {
-  const handleEscape = useCallback((e: KeyboardEvent) => {
-    if (e.key === 'Escape') onClose();
-  }, [onClose]);
+export default function Modal({
+  isOpen,
+  onClose,
+  title,
+  children,
+  size = 'md',
+}: ModalProps) {
+  const handleEscape = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    },
+    [onClose]
+  );
 
   useEffect(() => {
     if (isOpen) {
@@ -40,7 +49,7 @@ export default function Modal({ isOpen, onClose, title, children, size = 'md' }:
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-[#070e0b]/60 backdrop-blur-md"
+            className="absolute inset-0 bg-[#06090a]/80 backdrop-blur-md"
             onClick={onClose}
           />
           <motion.div
@@ -48,21 +57,23 @@ export default function Modal({ isOpen, onClose, title, children, size = 'md' }:
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 16 }}
             transition={{ type: 'spring', damping: 25, stiffness: 320 }}
-            className={`relative w-full ${sizeStyles[size]} bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/60 overflow-hidden z-10`}
+            className={`relative w-full ${sizeStyles[size]} bg-[#0d1611]/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/10 text-[#edf7ee] overflow-hidden z-10`}
           >
             {title && (
-              <div className="flex items-center justify-between px-7 py-5 border-b border-[#eaeae4] bg-white/50">
-                <h2 className="text-xl font-bold font-display text-[#1b251f] tracking-tight">{title}</h2>
+              <div className="flex items-center justify-between px-8 py-6 border-b border-white/10 bg-white/5">
+                <h2 className="text-xl font-bold font-display text-[#edf7ee] tracking-tight">
+                  {title}
+                </h2>
                 <button
                   onClick={onClose}
-                  className="p-2 rounded-full text-[#556358] hover:text-[#143e2b] hover:bg-[#ebf5ed] transition-colors cursor-pointer"
+                  className="p-2 rounded-full text-[#edf7ee]/60 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
                   aria-label="Close modal"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
             )}
-            <div className="px-7 py-6 max-h-[80vh] overflow-y-auto">
+            <div className="px-8 py-8 max-h-[80vh] overflow-y-auto">
               {children}
             </div>
           </motion.div>
@@ -71,4 +82,3 @@ export default function Modal({ isOpen, onClose, title, children, size = 'md' }:
     </AnimatePresence>
   );
 }
-

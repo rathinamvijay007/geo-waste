@@ -16,8 +16,8 @@ export default function AdminSidebar() {
   const location = useLocation();
 
   return (
-    <aside className="w-64 bg-[#070e0b] text-white flex flex-col min-h-screen shrink-0 border-r border-white/10 relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-64 h-64 bg-[#22c55e]/10 rounded-full blur-3xl pointer-events-none" />
+    <aside className="w-72 bg-[#070e0b] text-white flex flex-col min-h-screen shrink-0 border-r border-white/10 relative overflow-hidden">
+      <div className="absolute top-0 left-0 w-72 h-72 bg-[#22c55e]/10 rounded-full blur-3xl pointer-events-none" />
       {/* Header */}
       <div className="p-6 border-b border-white/10 flex items-center justify-between relative z-10">
         <Link to="/admin" className="flex items-center gap-3">
@@ -32,7 +32,7 @@ export default function AdminSidebar() {
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 p-4 space-y-1.5 relative z-10">
+      <nav className="flex-1 p-5 space-y-2.5 relative z-10">
         {adminNavItems.map(item => {
           const isActive = item.to === '/admin'
             ? location.pathname === '/admin'
@@ -42,7 +42,7 @@ export default function AdminSidebar() {
             <Link
               key={item.to}
               to={item.to}
-              className={`flex items-center gap-3.5 px-4.5 py-3.5 rounded-2xl text-xs font-bold transition-all duration-300 ${
+              className={`flex items-center gap-3.5 px-5 py-4 rounded-2xl text-xs font-bold transition-all duration-300 ${
                 isActive
                   ? 'bg-[#22c55e] text-[#070e0b] shadow-lg shadow-[#22c55e]/25 font-black scale-102'
                   : 'text-[#c3ded0]/70 hover:bg-white/5 hover:text-white'
@@ -56,10 +56,10 @@ export default function AdminSidebar() {
       </nav>
 
       {/* Footer / Back to App */}
-      <div className="p-4 border-t border-white/10 relative z-10">
+      <div className="p-5 border-t border-white/10 relative z-10">
         <Link
           to="/"
-          className="flex items-center gap-2.5 px-4 py-3 rounded-2xl text-xs font-bold text-[#c3ded0]/60 hover:bg-white/5 hover:text-white transition-colors"
+          className="flex items-center gap-2.5 px-5 py-3.5 rounded-2xl text-xs font-bold text-[#c3ded0]/60 hover:bg-white/5 hover:text-white transition-colors"
         >
           <ChevronLeft className="w-4 h-4 text-[#4ade80]" />
           <span>Back to EcoDrop</span>

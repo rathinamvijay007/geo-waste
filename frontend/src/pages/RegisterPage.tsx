@@ -1,12 +1,17 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Leaf, Mail, Lock, User, Phone, ArrowRight } from 'lucide-react';
+import { Leaf, Mail, Lock, User, Phone, ArrowRight, ShieldCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import Button from '../components/common/Button';
 import Input from '../components/common/Input';
+import ElectricBorder from '../components/common/ElectricBorder';
 
-function getPasswordStrength(password: string): { score: number; label: string; color: string } {
+function getPasswordStrength(password: string): {
+  score: number;
+  label: string;
+  color: string;
+} {
   let score = 0;
   if (password.length >= 6) score++;
   if (password.length >= 10) score++;
@@ -15,9 +20,9 @@ function getPasswordStrength(password: string): { score: number; label: string; 
   if (/[^A-Za-z0-9]/.test(password)) score++;
 
   if (score <= 1) return { score: 1, label: 'Weak', color: 'bg-rose-500' };
-  if (score <= 2) return { score: 2, label: 'Fair', color: 'bg-amber-500' };
-  if (score <= 3) return { score: 3, label: 'Good', color: 'bg-blue-500' };
-  return { score: 4, label: 'Strong', color: 'bg-[#22c55e]' };
+  if (score <= 2) return { score: 2, label: 'Fair', color: 'bg-amber-400' };
+  if (score <= 3) return { score: 3, label: 'Good', color: 'bg-sky-400' };
+  return { score: 4, label: 'Strong', color: 'bg-[#4ade80]' };
 }
 
 export default function RegisterPage() {
@@ -35,12 +40,15 @@ export default function RegisterPage() {
 
   const validate = () => {
     const errs: Record<string, string> = {};
-    if (!name.trim()) errs.name = 'Name is required';
-    if (!email.trim()) errs.email = 'Email is required';
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errs.email = 'Invalid email address';
+    if (!name.trim()) errs.name = 'Full name is required';
+    if (!email.trim()) errs.email = 'Email address is required';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+      errs.email = 'Invalid email address';
     if (!phone.trim()) errs.phone = 'Phone number is required';
-    if (password.length < 6) errs.password = 'Password must be at least 6 characters';
-    if (password !== confirmPassword) errs.confirmPassword = 'Passwords do not match';
+    if (password.length < 6)
+      errs.password = 'Password must be at least 6 characters';
+    if (password !== confirmPassword)
+      errs.confirmPassword = 'Passwords do not match';
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
@@ -59,121 +67,161 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center pt-24 pb-20 px-4 bg-ambient-light relative overflow-hidden">
-      {/* Ambient background glow */}
-      <div className="absolute top-1/4 right-1/3 w-96 h-96 bg-[#22c55e]/10 rounded-full blur-3xl pointer-events-none" />
+    <div
+      className="min-h-screen flex flex-col items-center justify-center pt-28 sm:pt-36 pb-36 px-6 relative overflow-hidden font-sans"
+      style={{ minHeight: '100vh' }}
+    >
+      {/* Ambient background glows */}
+      <div className="absolute top-1/4 right-1/3 w-[600px] h-[600px] bg-[#4ade80]/12 rounded-full blur-[140px] pointer-events-none -z-10" />
 
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full max-w-md relative z-10"
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className="w-full max-w-lg relative z-10 flex flex-col gap-8"
+        style={{ maxWidth: '32rem', width: '100%' }}
       >
-        <div className="text-center mb-8">
-          <Link to="/" className="inline-flex items-center gap-2.5 mb-6 group">
-            <div className="w-12 h-12 rounded-2xl bg-[#143e2b] flex items-center justify-center shadow-lg shadow-[#143e2b]/30 group-hover:scale-105 transition-transform">
-              <Leaf className="w-6 h-6 text-[#4ade80]" />
+        {/* Header Section */}
+        <div className="text-center flex flex-col items-center gap-3">
+          <Link to="/" className="inline-flex items-center gap-3 group mb-2">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#22c55e] to-[#16a34a] flex items-center justify-center shadow-lg shadow-[#22c55e]/25 group-hover:scale-105 transition-transform">
+              <Leaf className="w-7 h-7 text-[#052e16]" />
             </div>
-            <span className="text-3xl font-extrabold font-display text-[#143e2b] tracking-tight">EcoDrop</span>
+            <span className="text-3xl font-extrabold font-display text-[#edf7ee] tracking-tight">
+              EcoDrop
+            </span>
           </Link>
-          <h1 className="text-3xl font-extrabold font-display text-[#1b251f] tracking-tight">Create your account</h1>
-          <p className="text-sm text-[#556358] mt-2 font-medium">Join EcoDrop and start recycling responsibly</p>
+
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-display text-[#edf7ee] tracking-tight leading-tight">
+            Create your account
+          </h1>
+
+          <p className="text-sm sm:text-base text-[#edf7ee]/75 font-normal max-w-md mx-auto leading-relaxed">
+            Join EcoDrop today to find certified collection hubs, track your waste diversion, and join our eco community.
+          </p>
         </div>
 
-        <div className="glass-panel rounded-3xl border border-white/80 p-8 sm:p-10 shadow-2xl">
+        {/* Form Container Wrapped in ElectricBorder */}
+        <ElectricBorder color="#4ade80" speed={1} chaos={0.12} borderRadius={24} className="w-full">
+          <div
+            className="liquid-glass-card p-8 sm:p-12 flex flex-col gap-6"
+            style={{
+              padding: '2.5rem',
+            }}
+          >
           {success && (
-            <div className="mb-6 p-4 rounded-2xl bg-[#ebf5ed] border border-[#22c55e]/40 text-xs font-bold text-[#143e2b]">
-              Account created! Redirecting...
+            <div className="p-4 rounded-2xl bg-[#4ade80]/15 border border-[#4ade80]/30 text-xs font-mono font-bold text-[#4ade80] flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4 text-[#4ade80]" />
+              <span>Account created successfully! Redirecting...</span>
             </div>
           )}
+
           {error && (
-            <div className="mb-6 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-xs font-bold text-rose-600">
+            <div className="p-4 rounded-2xl bg-rose-500/15 border border-rose-500/30 text-xs font-mono font-bold text-rose-300">
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-5 font-normal">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-6" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             <Input
               label="Full Name"
-              placeholder="Your full name"
+              type="text"
+              placeholder="Vijay Rathinam"
               value={name}
-              onChange={e => setName(e.target.value)}
-              icon={<User className="w-4 h-4 text-[#143e2b]" />}
+              onChange={(e) => setName(e.target.value)}
               error={errors.name}
+              icon={<User className="w-4.5 h-4.5 text-[#4ade80]" />}
               required
               autoComplete="name"
             />
+
             <Input
               label="Email Address"
               type="email"
               placeholder="you@example.com"
               value={email}
-              onChange={e => setEmail(e.target.value)}
-              icon={<Mail className="w-4 h-4 text-[#143e2b]" />}
+              onChange={(e) => setEmail(e.target.value)}
               error={errors.email}
+              icon={<Mail className="w-4.5 h-4.5 text-[#4ade80]" />}
               required
               autoComplete="email"
             />
+
             <Input
               label="Phone Number"
               type="tel"
-              placeholder="+91 XXXXX XXXXX"
+              placeholder="+91 98765 43210"
               value={phone}
-              onChange={e => setPhone(e.target.value)}
-              icon={<Phone className="w-4 h-4 text-[#143e2b]" />}
+              onChange={(e) => setPhone(e.target.value)}
               error={errors.phone}
+              icon={<Phone className="w-4.5 h-4.5 text-[#4ade80]" />}
               required
               autoComplete="tel"
             />
+
             <div>
               <Input
                 label="Password"
                 type="password"
                 placeholder="Create a strong password"
                 value={password}
-                onChange={e => setPassword(e.target.value)}
-                icon={<Lock className="w-4 h-4 text-[#143e2b]" />}
+                onChange={(e) => setPassword(e.target.value)}
                 error={errors.password}
+                icon={<Lock className="w-4.5 h-4.5 text-[#4ade80]" />}
                 required
                 autoComplete="new-password"
               />
+
               {password && (
-                <div className="mt-2.5 space-y-1.5">
-                  <div className="flex gap-1.5">
-                    {[1, 2, 3, 4].map(i => (
-                      <div
-                        key={i}
-                        className={`h-1.5 flex-1 rounded-full transition-all ${
-                          i <= passwordStrength.score ? passwordStrength.color : 'bg-stone-200'
-                        }`}
-                      />
-                    ))}
+                <div className="mt-2.5 space-y-1">
+                  <div className="flex items-center justify-between text-xs font-mono font-bold">
+                    <span className="text-[#edf7ee]/60">Strength</span>
+                    <span className={passwordStrength.score >= 3 ? 'text-[#4ade80]' : 'text-amber-400'}>
+                      {passwordStrength.label}
+                    </span>
                   </div>
-                  <p className="text-[11px] font-bold text-[#556358]">Password strength: <span className="text-[#143e2b]">{passwordStrength.label}</span></p>
+                  <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+                    <div
+                      className={`h-full ${passwordStrength.color} transition-all duration-300`}
+                      style={{ width: `${(passwordStrength.score / 4) * 100}%` }}
+                    />
+                  </div>
                 </div>
               )}
             </div>
+
             <Input
               label="Confirm Password"
               type="password"
               placeholder="Confirm your password"
               value={confirmPassword}
-              onChange={e => setConfirmPassword(e.target.value)}
-              icon={<Lock className="w-4 h-4 text-[#143e2b]" />}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               error={errors.confirmPassword}
+              icon={<Lock className="w-4.5 h-4.5 text-[#4ade80]" />}
               required
               autoComplete="new-password"
             />
 
-            <Button type="submit" isLoading={isLoading} className="w-full shadow-lg shadow-[#143e2b]/25 mt-2" size="lg" rightIcon={<ArrowRight className="w-4 h-4" />}>
+            <Button
+              type="submit"
+              isLoading={isLoading}
+              className="w-full py-4 rounded-2xl shadow-xl shadow-[#22c55e]/25 text-base font-extrabold mt-2"
+              size="lg"
+              rightIcon={<ArrowRight className="w-5 h-5" />}
+            >
               Create Account
             </Button>
           </form>
         </div>
+      </ElectricBorder>
 
-        <p className="text-center text-sm text-[#556358] mt-8 font-semibold">
+        {/* Footer Link */}
+        <p className="text-center text-sm sm:text-base text-[#edf7ee]/75 font-normal">
           Already have an account?{' '}
-          <Link to="/login" className="text-[#143e2b] hover:underline font-extrabold">
+          <Link
+            to="/login"
+            className="text-[#4ade80] hover:underline font-bold"
+          >
             Sign in
           </Link>
         </p>
@@ -181,4 +229,3 @@ export default function RegisterPage() {
     </div>
   );
 }
-

@@ -41,7 +41,7 @@ class CollectionCenter(Base):
         "WasteCategory",
         secondary="center_waste_types",
         back_populates="collection_centers",
-        overlaps="center_links,waste_category,center",
+        overlaps="waste_type_links,center_links,waste_category,center",
     )
     operating_hours = relationship(
         "CenterOperatingHour",

@@ -28,7 +28,7 @@ class WasteCategory(Base):
         "CollectionCenter",
         secondary="center_waste_types",
         back_populates="waste_categories",
-        overlaps="center_links,center,waste_category",
+        overlaps="waste_type_links,center_links,center,waste_category",
     )
     recycling_activities = relationship(
         "RecyclingActivity", back_populates="waste_category"
